@@ -20,8 +20,21 @@ model Category {
   group       String   @default("Other")
   sortOrder   Int      @default(0)
   suppliers   SupplierCategory[]
+  products    Product[]
 
   @@index([sortOrder])
+}
+
+model Product {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  categoryId String
+  name       String
+  unit       String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  prices     SupplierPrice[]
+
+  @@index([categoryId])
 }
 
 model Supplier {
@@ -39,8 +52,23 @@ model Supplier {
   verified    Boolean  @default(false)
   createdAt   DateTime @default(now())
   categories  SupplierCategory[]
+  prices      SupplierPrice[]
 
   @@index([city])
+}
+
+model SupplierPrice {
+  id         String   @id @default(cuid())
+  supplierId String
+  productId  String
+  price      Float
+  currency   String   @default("USD")
+  updatedAt  DateTime @updatedAt
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([supplierId, productId])
+  @@index([productId])
 }
 
 model SupplierCategory {

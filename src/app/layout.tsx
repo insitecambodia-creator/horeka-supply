@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HoReKa Supply | Find suppliers for hotels, restaurants & cafés",
+  title: "Restaurant Cambodia Supply | Find suppliers for hotels, restaurants & cafés",
   description:
     "A directory of suppliers for hotels, restaurants and cafés in Cambodia — fresh produce, meat & seafood, beverages, cleaning, maintenance, and more.",
 };
@@ -21,7 +21,7 @@ export default function RootLayout({
             <Link href="/" className="flex items-center gap-2 font-semibold text-lg">
               <span className="text-2xl">🍽️</span>
               <span>
-                HoReKa <span className="text-emerald-700">Supply</span>
+                Restaurant Cambodia <span className="text-emerald-700">Supply</span>
               </span>
             </Link>
             <nav className="flex items-center gap-4 text-sm font-medium text-stone-600">
@@ -37,7 +37,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <footer className="border-t border-stone-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-stone-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p>HoReKa Supply &mdash; a supplier directory for hotels, restaurants &amp; cafés in Cambodia.</p>
+            <p>Restaurant Cambodia Supply &mdash; a supplier directory for hotels, restaurants &amp; cafés in Cambodia.</p>
             <p>Listings are demo data for now.</p>
           </div>
         </footer>

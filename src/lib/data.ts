@@ -39,6 +39,21 @@ export async function getCitiesForCategory(categoryId: string) {
   return suppliers.map((s) => s.city);
 }
 
+export async function getPriceComparisonForCategory(categoryId: string, city?: string) {
+  const products = await prisma.product.findMany({
+    where: { categoryId },
+    orderBy: { name: "asc" },
+    include: {
+      prices: {
+        where: city ? { supplier: { city } } : undefined,
+        include: { supplier: true },
+        orderBy: { price: "asc" },
+      },
+    },
+  });
+  return products.filter((p) => p.prices.length > 0);
+}
+
 export async function getSupplierBySlug(slug: string) {
   return prisma.supplier.findUnique({
     where: { slug },

@@ -1,4 +1,4 @@
-# HoReKa Supply
+# Restaurant Cambodia Supply
 
 A supplier directory that helps hotels, restaurants and cafés in Cambodia find suppliers
 across every category they need — fresh produce, meat & seafood, beverages, cleaning,
