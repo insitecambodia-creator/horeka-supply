@@ -4,7 +4,7 @@ A supplier directory that helps hotels, restaurants and cafés in Cambodia find 
 across every category they need — fresh produce, meat & seafood, beverages, cleaning,
 maintenance, insurance, marketing, and more.
 
-Built with Next.js (App Router), TypeScript, Tailwind CSS, and Prisma + SQLite.
+Built with Next.js (App Router), TypeScript, Tailwind CSS, and Prisma + PostgreSQL.
 
 The current version is a **browsable directory**: pick a category, see the suppliers
 listed for it, filter by city, and view a supplier's contact details. Supplier data is
@@ -15,15 +15,26 @@ didn't cover them.
 
 ## Getting started
 
+Requires a PostgreSQL database (e.g. a free [Neon](https://neon.tech) project).
+
 ```bash
 npm install
-cp .env.example .env
-npx prisma migrate dev
+cp .env.example .env   # then set DATABASE_URL to your Postgres connection string
+npx prisma migrate deploy
 npm run db:seed
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it.
+
+## Deploying on Vercel
+
+Set `DATABASE_URL` in the Vercel project's Environment Variables (all environments) to
+your Postgres connection string. The `build` script runs `prisma migrate deploy` before
+`next build`, so pending migrations apply automatically on every deploy. Run
+`npm run db:seed` once (locally, pointed at the production database, or via a one-off
+script) to populate it — seeding isn't run automatically on every build so it won't
+overwrite future manually-managed data.
 
 ## Project structure
 
