@@ -15,19 +15,6 @@ type CategorySeed = {
   group: string;
 };
 
-type ProductSeed = {
-  slug: string;
-  categorySlug: string;
-  name: string;
-  unit: string;
-};
-
-type PriceSeed = {
-  supplierSlug: string;
-  productSlug: string;
-  price: number;
-};
-
 type SupplierSeed = {
   slug: string;
   name: string;
@@ -164,142 +151,6 @@ const suppliers: SupplierSeed[] = [
   { slug: "securewatch-cctv", name: "SecureWatch CCTV & Guards", description: "Security camera maintenance and guard services for hotels and restaurants.", city: "Siem Reap", phone: "+855 12 345 654", categories: ["security"] },
 ];
 
-// Price comparison only applies to categories selling discrete, unit-priced
-// products (Food & Beverage and Facility & Consumables). Service categories
-// (insurance, POS software, security, etc.) are quoted as contracts, not
-// per-unit prices, so they have no products here.
-const products: ProductSeed[] = [
-  { slug: "tomatoes", categorySlug: "fresh-produce", name: "Tomatoes", unit: "per kg" },
-  { slug: "cucumber", categorySlug: "fresh-produce", name: "Cucumber", unit: "per kg" },
-
-  { slug: "chicken-whole", categorySlug: "meat-poultry", name: "Whole chicken", unit: "per kg" },
-  { slug: "beef-cut", categorySlug: "meat-poultry", name: "Beef (cut)", unit: "per kg" },
-
-  { slug: "shrimp", categorySlug: "seafood", name: "Shrimp", unit: "per kg" },
-  { slug: "squid", categorySlug: "seafood", name: "Squid", unit: "per kg" },
-
-  { slug: "baguette", categorySlug: "bakery", name: "Baguette", unit: "per piece" },
-  { slug: "burger-bun", categorySlug: "bakery", name: "Burger bun", unit: "per dozen" },
-
-  { slug: "eggs-tray-30", categorySlug: "eggs-dairy", name: "Eggs", unit: "per tray of 30" },
-  { slug: "butter-1kg", categorySlug: "eggs-dairy", name: "Butter", unit: "per kg" },
-
-  { slug: "jasmine-rice-25kg", categorySlug: "dry-goods", name: "Jasmine rice", unit: "per 25kg bag" },
-  { slug: "flour-1kg", categorySlug: "dry-goods", name: "Flour", unit: "per kg" },
-
-  { slug: "bottled-water-case24", categorySlug: "beverages", name: "Bottled water", unit: "per case of 24" },
-  { slug: "soft-drink-case24", categorySlug: "beverages", name: "Soft drink", unit: "per case of 24" },
-
-  { slug: "local-beer-case24", categorySlug: "beer-alcohol", name: "Local beer", unit: "per case of 24" },
-  { slug: "house-wine-bottle", categorySlug: "beer-alcohol", name: "House wine", unit: "per bottle" },
-
-  { slug: "coffee-beans-1kg", categorySlug: "coffee-tea", name: "Coffee beans", unit: "per kg" },
-  { slug: "tea-leaves-1kg", categorySlug: "coffee-tea", name: "Tea leaves", unit: "per kg" },
-
-  { slug: "ice-cream-5l", categorySlug: "desserts", name: "Ice cream", unit: "per 5L tub" },
-  { slug: "cake-slice-box", categorySlug: "desserts", name: "Cake slices", unit: "per box of 8" },
-
-  { slug: "soy-sauce-5l", categorySlug: "condiments", name: "Soy sauce", unit: "per 5L" },
-  { slug: "cooking-oil-5l", categorySlug: "condiments", name: "Cooking oil", unit: "per 5L" },
-
-  { slug: "ice-block", categorySlug: "ice", name: "Ice block", unit: "per block" },
-  { slug: "ice-bag-5kg", categorySlug: "ice", name: "Ice bag", unit: "per 5kg bag" },
-
-  { slug: "dish-soap-5l", categorySlug: "cleaning-products", name: "Dish soap", unit: "per 5L" },
-  { slug: "disposable-gloves-box100", categorySlug: "cleaning-products", name: "Disposable gloves", unit: "per box of 100" },
-
-  { slug: "takeaway-box-100", categorySlug: "packaging", name: "Takeaway box", unit: "per 100 pcs" },
-  { slug: "paper-bag-100", categorySlug: "packaging", name: "Paper bag", unit: "per 100 pcs" },
-
-  { slug: "toilet-paper-case48", categorySlug: "consumables", name: "Toilet paper", unit: "per case of 48" },
-  { slug: "napkins-case5000", categorySlug: "consumables", name: "Napkins", unit: "per case of 5000" },
-
-  { slug: "lpg-cylinder-12kg", categorySlug: "gas-supplier", name: "LPG cylinder (12kg)", unit: "per cylinder" },
-  { slug: "lpg-cylinder-45kg", categorySlug: "gas-supplier", name: "LPG cylinder (45kg)", unit: "per cylinder" },
-];
-
-const prices: PriceSeed[] = [
-  { supplierSlug: "boeung-kak-fresh-produce", productSlug: "tomatoes", price: 1.2 },
-  { supplierSlug: "angkor-veggie-co", productSlug: "tomatoes", price: 1.35 },
-  { supplierSlug: "boeung-kak-fresh-produce", productSlug: "cucumber", price: 0.9 },
-  { supplierSlug: "angkor-veggie-co", productSlug: "cucumber", price: 0.85 },
-
-  { supplierSlug: "mekong-meat-supply", productSlug: "chicken-whole", price: 4.2 },
-  { supplierSlug: "golden-duck-poultry", productSlug: "chicken-whole", price: 4.5 },
-  { supplierSlug: "mekong-meat-supply", productSlug: "beef-cut", price: 9.8 },
-  { supplierSlug: "golden-duck-poultry", productSlug: "beef-cut", price: 10.2 },
-
-  { supplierSlug: "tonle-sap-seafood", productSlug: "shrimp", price: 8.5 },
-  { supplierSlug: "sihanoukville-catch-co", productSlug: "shrimp", price: 7.9 },
-  { supplierSlug: "tonle-sap-seafood", productSlug: "squid", price: 6.2 },
-  { supplierSlug: "sihanoukville-catch-co", productSlug: "squid", price: 6.5 },
-
-  { supplierSlug: "golden-crust-bakery", productSlug: "baguette", price: 0.35 },
-  { supplierSlug: "pp-artisan-bread", productSlug: "baguette", price: 0.4 },
-  { supplierSlug: "golden-crust-bakery", productSlug: "burger-bun", price: 2.4 },
-  { supplierSlug: "pp-artisan-bread", productSlug: "burger-bun", price: 2.6 },
-
-  { supplierSlug: "kampong-dairy-farm", productSlug: "eggs-tray-30", price: 3.6 },
-  { supplierSlug: "fresh-egg-cambodia", productSlug: "eggs-tray-30", price: 3.4 },
-  { supplierSlug: "kampong-dairy-farm", productSlug: "butter-1kg", price: 7.5 },
-  { supplierSlug: "fresh-egg-cambodia", productSlug: "butter-1kg", price: 7.9 },
-
-  { supplierSlug: "angkor-rice-grains", productSlug: "jasmine-rice-25kg", price: 22.0 },
-  { supplierSlug: "mekong-dry-goods", productSlug: "jasmine-rice-25kg", price: 23.5 },
-  { supplierSlug: "angkor-rice-grains", productSlug: "flour-1kg", price: 1.1 },
-  { supplierSlug: "mekong-dry-goods", productSlug: "flour-1kg", price: 1.05 },
-
-  { supplierSlug: "cambodia-beverage-distribution", productSlug: "bottled-water-case24", price: 5.5 },
-  { supplierSlug: "pure-springs-water", productSlug: "bottled-water-case24", price: 5.2 },
-  { supplierSlug: "cambodia-beverage-distribution", productSlug: "soft-drink-case24", price: 9.6 },
-  { supplierSlug: "pure-springs-water", productSlug: "soft-drink-case24", price: 9.9 },
-
-  { supplierSlug: "indochine-beverage-import", productSlug: "local-beer-case24", price: 14.5 },
-  { supplierSlug: "khmer-craft-beer", productSlug: "local-beer-case24", price: 15.8 },
-  { supplierSlug: "indochine-beverage-import", productSlug: "house-wine-bottle", price: 6.5 },
-  { supplierSlug: "khmer-craft-beer", productSlug: "house-wine-bottle", price: 7.2 },
-
-  { supplierSlug: "sen-monorom-coffee", productSlug: "coffee-beans-1kg", price: 9.0 },
-  { supplierSlug: "kirirom-tea-traders", productSlug: "coffee-beans-1kg", price: 9.5 },
-  { supplierSlug: "sen-monorom-coffee", productSlug: "tea-leaves-1kg", price: 6.0 },
-  { supplierSlug: "kirirom-tea-traders", productSlug: "tea-leaves-1kg", price: 5.6 },
-
-  { supplierSlug: "frosty-scoop-icecream", productSlug: "ice-cream-5l", price: 12.0 },
-  { supplierSlug: "sweet-angkor-cakes", productSlug: "ice-cream-5l", price: 12.8 },
-  { supplierSlug: "frosty-scoop-icecream", productSlug: "cake-slice-box", price: 9.5 },
-  { supplierSlug: "sweet-angkor-cakes", productSlug: "cake-slice-box", price: 8.9 },
-
-  { supplierSlug: "golden-soy-sauce-co", productSlug: "soy-sauce-5l", price: 6.8 },
-  { supplierSlug: "spice-route-condiments", productSlug: "soy-sauce-5l", price: 7.1 },
-  { supplierSlug: "golden-soy-sauce-co", productSlug: "cooking-oil-5l", price: 8.2 },
-  { supplierSlug: "spice-route-condiments", productSlug: "cooking-oil-5l", price: 8.0 },
-
-  { supplierSlug: "crystal-ice-pp", productSlug: "ice-block", price: 1.5 },
-  { supplierSlug: "coolzone-ice-supply", productSlug: "ice-block", price: 1.4 },
-  { supplierSlug: "crystal-ice-pp", productSlug: "ice-bag-5kg", price: 1.1 },
-  { supplierSlug: "coolzone-ice-supply", productSlug: "ice-bag-5kg", price: 1.2 },
-
-  { supplierSlug: "cleanpro-cambodia", productSlug: "dish-soap-5l", price: 5.5 },
-  { supplierSlug: "hygieneplus-supplies", productSlug: "dish-soap-5l", price: 5.9 },
-  { supplierSlug: "cleanpro-cambodia", productSlug: "disposable-gloves-box100", price: 3.2 },
-  { supplierSlug: "hygieneplus-supplies", productSlug: "disposable-gloves-box100", price: 3.0 },
-
-  { supplierSlug: "ecopack-cambodia", productSlug: "takeaway-box-100", price: 8.0 },
-  { supplierSlug: "pp-packaging-co", productSlug: "takeaway-box-100", price: 7.5 },
-  { supplierSlug: "ecopack-cambodia", productSlug: "paper-bag-100", price: 4.5 },
-  { supplierSlug: "pp-packaging-co", productSlug: "paper-bag-100", price: 4.8 },
-
-  { supplierSlug: "softline-paper-products", productSlug: "toilet-paper-case48", price: 18.0 },
-  { supplierSlug: "daily-essentials-trading", productSlug: "toilet-paper-case48", price: 19.5 },
-  { supplierSlug: "softline-paper-products", productSlug: "napkins-case5000", price: 22.0 },
-  { supplierSlug: "daily-essentials-trading", productSlug: "napkins-case5000", price: 21.0 },
-
-  { supplierSlug: "khmer-lpg-distribution", productSlug: "lpg-cylinder-12kg", price: 13.5 },
-  { supplierSlug: "sokha-gas-supply", productSlug: "lpg-cylinder-12kg", price: 14.0 },
-  { supplierSlug: "khmer-lpg-distribution", productSlug: "lpg-cylinder-45kg", price: 45.0 },
-  { supplierSlug: "sokha-gas-supply", productSlug: "lpg-cylinder-45kg", price: 47.0 },
-];
-
 async function main() {
   console.log("Seeding categories...");
   for (const [index, category] of categories.entries()) {
@@ -331,34 +182,7 @@ async function main() {
     });
   }
 
-  console.log("Seeding products...");
-  for (const product of products) {
-    await prisma.product.upsert({
-      where: { slug: product.slug },
-      update: { name: product.name, unit: product.unit, category: { connect: { slug: product.categorySlug } } },
-      create: {
-        slug: product.slug,
-        name: product.name,
-        unit: product.unit,
-        category: { connect: { slug: product.categorySlug } },
-      },
-    });
-  }
-
-  console.log("Seeding prices...");
-  for (const priceEntry of prices) {
-    const supplier = await prisma.supplier.findUniqueOrThrow({ where: { slug: priceEntry.supplierSlug } });
-    const product = await prisma.product.findUniqueOrThrow({ where: { slug: priceEntry.productSlug } });
-    await prisma.supplierPrice.upsert({
-      where: { supplierId_productId: { supplierId: supplier.id, productId: product.id } },
-      update: { price: priceEntry.price },
-      create: { supplierId: supplier.id, productId: product.id, price: priceEntry.price },
-    });
-  }
-
-  console.log(
-    `Seeded ${categories.length} categories, ${suppliers.length} suppliers, ${products.length} products, ${prices.length} prices.`
-  );
+  console.log(`Seeded ${categories.length} categories and ${suppliers.length} suppliers.`);
 }
 
 main()
