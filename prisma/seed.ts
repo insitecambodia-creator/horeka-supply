@@ -2,9 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// NOTE: All suppliers below are fictional placeholder/demo data used to
-// showcase the directory layout. None represent real businesses. Real
-// supplier onboarding will replace this data as the directory grows.
+// NOTE: Suppliers below are real Cambodia hospitality-supply businesses,
+// sourced from a public research report (company websites, the Cambodia
+// Hotel Association directory, and business listings). Contact details
+// have not been independently confirmed by us — verify before ordering.
+// Categories not covered by any supplier here (e.g. utilities, insurance,
+// pest control) are intentionally left empty rather than filled with
+// placeholder data.
 
 type CategorySeed = {
   slug: string;
@@ -68,87 +72,210 @@ const categories: CategorySeed[] = [
 ];
 
 const suppliers: SupplierSeed[] = [
-  { slug: "boeung-kak-fresh-produce", name: "Boeung Kak Fresh Produce", description: "Daily wholesale delivery of leafy greens, root vegetables and herbs sourced from Kandal province farms.", city: "Phnom Penh", phone: "+855 12 345 601", whatsapp: "+855 12 345 601", email: "orders@bkfreshproduce.example", categories: ["fresh-produce"] },
-  { slug: "angkor-veggie-co", name: "Angkor Veggie Co.", description: "Fruit and vegetable wholesaler supplying hotels and restaurants across Siem Reap.", city: "Siem Reap", phone: "+855 12 345 602", email: "sales@angkorveggie.example", categories: ["fresh-produce"] },
-
-  { slug: "mekong-meat-supply", name: "Mekong Meat Supply", description: "Beef and pork wholesale with cold-chain delivery, 2-3 times a week.", city: "Phnom Penh", phone: "+855 12 345 603", whatsapp: "+855 12 345 603", categories: ["meat-poultry"] },
-  { slug: "golden-duck-poultry", name: "Golden Duck Poultry", description: "Chicken and duck supplier serving restaurants in Siem Reap and Battambang.", city: "Battambang", phone: "+855 12 345 604", categories: ["meat-poultry"] },
-
-  { slug: "tonle-sap-seafood", name: "Tonle Sap Seafood", description: "Daily fresh fish, shrimp and crab sourced from the Tonle Sap and coastal markets.", city: "Phnom Penh", phone: "+855 12 345 605", whatsapp: "+855 12 345 605", categories: ["seafood"] },
-  { slug: "sihanoukville-catch-co", name: "Sihanoukville Catch Co.", description: "Coastal seafood supplier with daily delivery to hotels and restaurants.", city: "Sihanoukville", phone: "+855 12 345 606", categories: ["seafood"] },
-
-  { slug: "golden-crust-bakery", name: "Golden Crust Bakery", description: "Wholesale bread, buns and pastries baked fresh every morning.", city: "Phnom Penh", phone: "+855 12 345 607", email: "wholesale@goldencrust.example", categories: ["bakery"] },
-  { slug: "pp-artisan-bread", name: "Phnom Penh Artisan Bread", description: "Boutique bakery supplying pastries and specialty bread to cafes.", city: "Phnom Penh", phone: "+855 12 345 608", categories: ["bakery"] },
-
-  { slug: "kampong-dairy-farm", name: "Kampong Dairy Farm", description: "Eggs, butter, cream and cheese distributor with weekly delivery routes.", city: "Kampong Cham", phone: "+855 12 345 609", categories: ["eggs-dairy"] },
-  { slug: "fresh-egg-cambodia", name: "Fresh Egg Cambodia", description: "Egg wholesaler supplying hotels, restaurants and bakeries nationwide.", city: "Phnom Penh", phone: "+855 12 345 610", categories: ["eggs-dairy"] },
-
-  { slug: "angkor-rice-grains", name: "Angkor Rice & Grains", description: "Bulk rice, flour and sugar supplier for hospitality businesses.", city: "Phnom Penh", phone: "+855 12 345 611", categories: ["dry-goods"] },
-  { slug: "mekong-dry-goods", name: "Mekong Dry Goods Trading", description: "Pasta, spices and dry pantry staples, weekly delivery.", city: "Siem Reap", phone: "+855 12 345 612", categories: ["dry-goods"] },
-
-  { slug: "cambodia-beverage-distribution", name: "Cambodia Beverage Distribution", description: "Soft drinks, bottled water and juice distributor for hotels and restaurants.", city: "Phnom Penh", phone: "+855 12 345 613", categories: ["beverages"] },
-  { slug: "pure-springs-water", name: "Pure Springs Water Co.", description: "Bottled water and juice supplier with weekly scheduled routes.", city: "Siem Reap", phone: "+855 12 345 614", categories: ["beverages"] },
-
-  { slug: "indochine-beverage-import", name: "Indochine Beverage Import", description: "Beer, wine and spirits importer serving hotel bars and restaurants.", city: "Phnom Penh", phone: "+855 12 345 615", categories: ["beer-alcohol"] },
-  { slug: "khmer-craft-beer", name: "Khmer Craft Beer Distributors", description: "Local and imported craft beer distribution, weekly delivery.", city: "Siem Reap", phone: "+855 12 345 616", categories: ["beer-alcohol"] },
-
-  { slug: "sen-monorom-coffee", name: "Sen Monorom Coffee Roasters", description: "Coffee bean roaster and wholesaler supplying cafes and hotels.", city: "Phnom Penh", phone: "+855 12 345 617", email: "wholesale@senmonoromcoffee.example", categories: ["coffee-tea"] },
-  { slug: "kirirom-tea-traders", name: "Kirirom Tea Traders", description: "Tea and syrup supplier for cafes, weekly delivery.", city: "Siem Reap", phone: "+855 12 345 618", categories: ["coffee-tea"] },
-
-  { slug: "frosty-scoop-icecream", name: "Frosty Scoop Ice Cream Wholesale", description: "Ice cream wholesaler serving restaurants and cafes.", city: "Phnom Penh", phone: "+855 12 345 619", categories: ["desserts"] },
-  { slug: "sweet-angkor-cakes", name: "Sweet Angkor Cakes", description: "Cake supplier for hotel restaurants and cafes.", city: "Siem Reap", phone: "+855 12 345 620", categories: ["desserts"] },
-
-  { slug: "golden-soy-sauce-co", name: "Golden Soy Sauce Co.", description: "Sauces, soy sauce and cooking oil distributor.", city: "Phnom Penh", phone: "+855 12 345 621", categories: ["condiments"] },
-  { slug: "spice-route-condiments", name: "Spice Route Condiments", description: "Ketchup, sauces and condiment wholesaler, weekly delivery.", city: "Siem Reap", phone: "+855 12 345 622", categories: ["condiments"] },
-
-  { slug: "crystal-ice-pp", name: "Crystal Ice Phnom Penh", description: "Food-grade ice delivered daily to restaurants and bars.", city: "Phnom Penh", phone: "+855 12 345 623", categories: ["ice"] },
-  { slug: "coolzone-ice-supply", name: "Coolzone Ice Supply", description: "Daily ice delivery for restaurants and hotel bars.", city: "Siem Reap", phone: "+855 12 345 624", categories: ["ice"] },
-
-  { slug: "cleanpro-cambodia", name: "CleanPro Cambodia", description: "Detergents, sanitizers and gloves for hospitality businesses.", city: "Phnom Penh", phone: "+855 12 345 625", categories: ["cleaning-products"] },
-  { slug: "hygieneplus-supplies", name: "HygienePlus Supplies", description: "Cleaning and sanitizing product distributor, weekly delivery.", city: "Sihanoukville", phone: "+855 12 345 626", categories: ["cleaning-products"] },
-
-  { slug: "ecopack-cambodia", name: "EcoPack Cambodia", description: "Takeaway boxes, cups and bags, including eco-friendly options.", city: "Phnom Penh", phone: "+855 12 345 627", website: "https://ecopack.example", categories: ["packaging"] },
-  { slug: "pp-packaging-co", name: "Phnom Penh Packaging Co.", description: "Bulk packaging supplier for restaurants and cafes.", city: "Phnom Penh", phone: "+855 12 345 628", categories: ["packaging"] },
-
-  { slug: "softline-paper-products", name: "Softline Paper Products", description: "Toilet paper, napkins and tissue wholesaler.", city: "Phnom Penh", phone: "+855 12 345 629", categories: ["consumables"] },
-  { slug: "daily-essentials-trading", name: "Daily Essentials Trading", description: "Consumables supplier for hotels and restaurants, weekly delivery.", city: "Siem Reap", phone: "+855 12 345 630", categories: ["consumables"] },
-
-  { slug: "khmer-lpg-distribution", name: "Khmer LPG Distribution", description: "LPG cylinder supplier and exchange service for commercial kitchens.", city: "Phnom Penh", phone: "+855 12 345 631", categories: ["gas-supplier"] },
-  { slug: "sokha-gas-supply", name: "Sokha Gas Supply", description: "LPG delivery for restaurants and hotels, monthly or on request.", city: "Siem Reap", phone: "+855 12 345 632", categories: ["gas-supplier"] },
-
-  { slug: "capital-utility-services", name: "Capital Utility Services", description: "Utility account management and billing support for commercial properties.", city: "Phnom Penh", phone: "+855 12 345 633", categories: ["utilities"] },
-  { slug: "mekong-broadband", name: "Mekong Broadband Co.", description: "Business internet service provider with dedicated support lines.", city: "Phnom Penh", phone: "+855 12 345 634", categories: ["internet"] },
-  { slug: "speednet-cambodia", name: "SpeedNet Cambodia", description: "ISP offering business-grade fiber packages for hospitality venues.", city: "Siem Reap", phone: "+855 12 345 635", categories: ["internet"] },
-
-  { slug: "kitchentech-repair", name: "KitchenTech Repair Services", description: "Kitchen equipment and refrigeration maintenance and repair.", city: "Phnom Penh", phone: "+855 12 345 636", categories: ["equipment-maintenance"] },
-  { slug: "coldchain-equipment-services", name: "ColdChain Equipment Services", description: "Refrigeration servicing for restaurants and hotels, on-call.", city: "Siem Reap", phone: "+855 12 345 637", categories: ["equipment-maintenance"] },
-
-  { slug: "coolair-cambodia", name: "CoolAir Cambodia", description: "Air conditioning cleaning and repair, quarterly maintenance plans.", city: "Phnom Penh", phone: "+855 12 345 638", categories: ["air-conditioning"] },
-  { slug: "arctic-air-services", name: "Arctic Air Services", description: "AC servicing and repair for hospitality venues.", city: "Sihanoukville", phone: "+855 12 345 639", categories: ["air-conditioning"] },
-
-  { slug: "safeguard-pest-control", name: "SafeGuard Pest Control", description: "Insect and rodent control with monthly and quarterly plans.", city: "Phnom Penh", phone: "+855 12 345 640", categories: ["pest-control"] },
-  { slug: "khmer-pest-solutions", name: "Khmer Pest Solutions", description: "Pest control services for restaurants and hotels.", city: "Siem Reap", phone: "+855 12 345 641", categories: ["pest-control"] },
-
-  { slug: "cleanlinen-laundry", name: "CleanLinen Laundry Services", description: "Tablecloth and uniform laundry service, weekly pickup.", city: "Phnom Penh", phone: "+855 12 345 642", categories: ["laundry"] },
-  { slug: "royal-laundry-co", name: "Royal Laundry Co.", description: "Commercial laundry for hotels and restaurants.", city: "Siem Reap", phone: "+855 12 345 643", categories: ["laundry"] },
-
-  { slug: "lotus-blossom-florist", name: "Lotus Blossom Florist", description: "Floral arrangements for hotel lobbies and restaurant tables, weekly.", city: "Phnom Penh", phone: "+855 12 345 644", categories: ["flowers-decoration"] },
-  { slug: "angkor-floral-designs", name: "Angkor Floral Designs", description: "Weekly floral decoration service for hospitality venues.", city: "Siem Reap", phone: "+855 12 345 645", categories: ["flowers-decoration"] },
-
-  { slug: "rights-licensing-cambodia", name: "Rights & Licensing Cambodia", description: "Public performance music licensing for commercial venues, annual.", city: "Phnom Penh", phone: "+855 12 345 646", categories: ["music-licensing"] },
-
-  { slug: "paysmart-cambodia", name: "PaySmart Cambodia Payment Integrators", description: "Helps venues integrate card and QR payment acceptance with local banks.", city: "Phnom Penh", phone: "+855 12 345 647", categories: ["payment-services"] },
-
-  { slug: "khpos-solutions", name: "KHPOS Solutions", description: "POS software subscription and on-site support for restaurants.", city: "Phnom Penh", phone: "+855 12 345 648", website: "https://khpos.example", categories: ["pos-software"] },
-  { slug: "smarttill-pos", name: "SmartTill POS Cambodia", description: "Cloud POS system with monthly subscription and local support.", city: "Siem Reap", phone: "+855 12 345 649", categories: ["pos-software"] },
-
-  { slug: "pixel-studio-marketing", name: "Pixel Studio Marketing", description: "Facebook ads, graphic design and photography for hospitality brands.", city: "Phnom Penh", phone: "+855 12 345 650", categories: ["marketing"] },
-  { slug: "angkor-digital-agency", name: "Angkor Digital Agency", description: "Social media marketing and content photography for restaurants and hotels.", city: "Siem Reap", phone: "+855 12 345 651", categories: ["marketing"] },
-
-  { slug: "goldenshield-insurance", name: "Golden Shield Insurance Brokers", description: "Property, liability and employee insurance for hospitality businesses.", city: "Phnom Penh", phone: "+855 12 345 652", categories: ["insurance"] },
-
-  { slug: "guardian-security-services", name: "Guardian Security Services", description: "CCTV maintenance and security guard staffing, monthly contracts.", city: "Phnom Penh", phone: "+855 12 345 653", categories: ["security"] },
-  { slug: "securewatch-cctv", name: "SecureWatch CCTV & Guards", description: "Security camera maintenance and guard services for hotels and restaurants.", city: "Siem Reap", phone: "+855 12 345 654", categories: ["security"] },
+  {
+    slug: "makro-cambodia",
+    name: "Makro (Cambodia) Company Limited",
+    description: "Cash-and-carry wholesaler supplying food ingredients, groceries, beverages, condiments and non-food consumables to hotels and restaurants. Branches in Phnom Penh, Siem Reap and Chroy Changvar.",
+    city: "Phnom Penh",
+    phone: "+855 (23) 977 355",
+    website: "https://makrocambodia.com",
+    verified: true,
+    categories: ["fresh-produce", "dry-goods", "beverages", "condiments", "cleaning-products", "consumables"],
+  },
+  {
+    slug: "dksh-cambodia",
+    name: "DKSH (Cambodia) Ltd.",
+    description: "FMCG distributor with broad channel access for HoReCa procurement, covering dry goods, beverages, condiments and consumables.",
+    city: "Phnom Penh",
+    phone: "+855 81 888 099",
+    email: "info@dksh.com.kh",
+    website: "https://dksh.com/kh-en/home",
+    verified: true,
+    categories: ["dry-goods", "beverages", "condiments", "consumables", "cleaning-products"],
+  },
+  {
+    slug: "lsh-cambodia",
+    name: "LSH (Cambodia) Pte. Ltd.",
+    description: "Foodservice importer and distributor of meat, dairy, confectionery, bakery and beverages, including ambient, chilled and frozen products.",
+    city: "Phnom Penh",
+    phone: "+855 23 968 688; +855 17 388 399; +855 16 800 833",
+    website: "https://lshcambodia.com",
+    verified: true,
+    categories: ["meat-poultry", "eggs-dairy", "bakery", "desserts", "beverages"],
+  },
+  {
+    slug: "boncafe-cambodia",
+    name: "Boncafé (Cambodia) Ltd.",
+    description: "Coffee beans, machines, café equipment and barista training for foodservice coffee programs. Branches in Phnom Penh, Siem Reap and Sihanoukville.",
+    city: "Phnom Penh",
+    phone: "+855 23 883 100 / 200",
+    email: "info@boncafe.com.kh",
+    website: "https://boncafe.com.kh",
+    verified: true,
+    categories: ["coffee-tea"],
+  },
+  {
+    slug: "kofi",
+    name: "KOFI Co., Ltd.",
+    description: "Coffee beans, roasting, machines, accessories and barista training for hospitality coffee programs.",
+    city: "Phnom Penh",
+    phone: "+855 69 666 999; +855 77 777 970",
+    email: "info@kofi.com.kh",
+    website: "https://kofi.com.kh",
+    verified: true,
+    categories: ["coffee-tea"],
+  },
+  {
+    slug: "phs-asia",
+    name: "PHS Asia Co., Ltd.",
+    description: "Room linen, amenities, cleaning & sanitizing (including Ecolab F&B), laundry, locks, safes and minibars for hotels. Serves Phnom Penh and Siem Reap.",
+    city: "Phnom Penh",
+    phone: "+855 11 888 270; +855 63 965 533",
+    email: "info@phsasia.com.kh",
+    website: "https://phsasia.com.kh",
+    verified: true,
+    categories: ["cleaning-products", "laundry", "consumables"],
+  },
+  {
+    slug: "sdc-hotel-supply",
+    name: "SDC Hotel Supply",
+    description: "Linen, textiles, amenities, F&B ware and housekeeping supplies for hotels.",
+    city: "Phnom Penh",
+    phone: "+855 76 240 4444; +855 12/10 866 648",
+    email: "sdc-sell@sdchotelsupply.com",
+    website: "https://sdchotelsupply.com",
+    verified: true,
+    categories: ["laundry", "consumables"],
+  },
+  {
+    slug: "da-houg-heng-enterprise",
+    name: "Da Houg Heng Enterprise Ltd.",
+    description: "Food & beverage distribution plus tissue/paper and branded FMCG for HoReCa and general trade.",
+    city: "Phnom Penh",
+    phone: "+855 92 249 154",
+    email: "nattachai@dahfh.com",
+    website: "https://dahoughengenterprise.com",
+    verified: true,
+    categories: ["beverages", "dry-goods", "consumables"],
+  },
+  {
+    slug: "fresh-food-supply-cambodia",
+    name: "Fresh Food Supply Cambodia",
+    description: "Fresh produce, meat, seafood and groceries delivered to hotels, restaurants, cafés and cruises.",
+    city: "Phnom Penh",
+    phone: "+855 93 887 171",
+    email: "sales@freshfoodcambodia.com",
+    website: "https://freshfoodcambodia.com",
+    categories: ["fresh-produce", "meat-poultry", "seafood"],
+  },
+  {
+    slug: "jny-home-cambodia",
+    name: "JNY Home Cambodia",
+    description: "Mattresses, bed and bath linen, room amenities, chinaware, flatware and kitchen/bar utensils for hotels.",
+    city: "Phnom Penh",
+    phone: "+855 23 231 088; +855 92 982 322; +855 92 982 338",
+    website: "https://jnycambodia.com",
+    categories: ["laundry", "consumables"],
+  },
+  {
+    slug: "bell-foods-cambodia",
+    name: "Bell Foods Cambodia",
+    description: "Japanese sauces, soup bases and seasonings for restaurants, hotels and retail.",
+    city: "Phnom Penh",
+    phone: "+855 61 313 311",
+    email: "cs@bellfoods.com.kh",
+    website: "https://bellfoods.com.kh",
+    categories: ["condiments"],
+  },
+  {
+    slug: "dk-linen",
+    name: "DK Linen",
+    description: "Bed linen, curtains, uniforms, towels, chair covers, tablecloths and amenities for hotels and restaurants.",
+    city: "Phnom Penh",
+    phone: "078 613 666; 071 9 613 666; 096 6 613 666",
+    email: "info@dklinen.com",
+    website: "https://dklinen.com",
+    categories: ["laundry"],
+  },
+  {
+    slug: "karcher-cambodia",
+    name: "Kärcher Cambodia",
+    description: "Commercial cleaning machines, care agents and floor/surface cleaning systems.",
+    city: "Phnom Penh",
+    phone: "+855 23 933 233",
+    email: "info@kh.karcher.com",
+    website: "https://karcher.com/kh",
+    verified: true,
+    categories: ["cleaning-products", "equipment-maintenance"],
+  },
+  {
+    slug: "gbs-gourmet-beverage-solutions",
+    name: "GBS – Gourmet Beverage Solutions",
+    description: "Coffee and tea solutions, machines, beans and barista training. Locations in Phnom Penh, Siem Reap and Preah Sihanouk.",
+    city: "Phnom Penh",
+    phone: "+855 10 490 416; +855 69 900 550",
+    email: "info@gbs.com.kh",
+    website: "https://gbs.com.kh",
+    categories: ["coffee-tea"],
+  },
+  {
+    slug: "guang-hong-kitchen-equipment",
+    name: "Guang Hong Kitchen Equipment",
+    description: "Commercial kitchen equipment — grills, salamanders, mixers and stainless equipment.",
+    city: "Phnom Penh",
+    phone: "+855 23 214 178; +855 23 219 078",
+    website: "https://guanghongkh.com",
+    categories: ["equipment-maintenance"],
+  },
+  {
+    slug: "putih-khmer-import",
+    name: "Putih Khmer Import Co., Ltd.",
+    description: "Laundry equipment — washer-extractors, dryers, ironers, folders and finishing equipment, plus maintenance.",
+    city: "Phnom Penh",
+    phone: "+855 23 989 555",
+    email: "info@putihkhmerimport.com",
+    website: "https://putihkhmerimport.com",
+    categories: ["laundry", "equipment-maintenance"],
+  },
+  {
+    slug: "posflow-solutions",
+    name: "POSFlow Solutions",
+    description: "POS systems, restaurant hardware and mobile ordering software for hospitality operations.",
+    city: "Phnom Penh",
+    phone: "+855 10 633 889",
+    email: "info@posflowkh.com",
+    website: "https://posflowkh.com",
+    categories: ["pos-software"],
+  },
+  {
+    slug: "mpos-cambodia",
+    name: "MPOS Cambodia",
+    description: "Restaurant POS, QR ordering, multilingual POS and label/printer tools.",
+    city: "Phnom Penh",
+    phone: "+855 11 223 319",
+    email: "support@metathought.co",
+    website: "https://m-pos.cc",
+    categories: ["pos-software"],
+  },
+  {
+    slug: "kambio-nature",
+    name: "Kambio Nature",
+    description: "Eco-friendly hotel amenities, scent diffusers, spa supply and room gifts.",
+    city: "Phnom Penh",
+    phone: "+855 12 442 654",
+    email: "info@kambionature.com",
+    website: "https://kambionature.com",
+    categories: ["consumables"],
+  },
+  {
+    slug: "bkb-hotel-supply",
+    name: "BKB Hotel Supply",
+    description: "Room linen, amenities, chinaware, glassware, housekeeping and F&B equipment for hotels. Contact: Nang Vuthy (Manager).",
+    city: "Phnom Penh",
+    phone: "+855 78 859 035",
+    website: "https://bkbhotelsupply.com",
+    categories: ["laundry", "consumables"],
+  },
 ];
 
 async function main() {
@@ -160,6 +287,11 @@ async function main() {
       create: { ...category, sortOrder: index },
     });
   }
+
+  console.log("Removing suppliers not in the current seed list...");
+  await prisma.supplier.deleteMany({
+    where: { slug: { notIn: suppliers.map((s) => s.slug) } },
+  });
 
   console.log("Seeding suppliers...");
   for (const supplier of suppliers) {

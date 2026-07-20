@@ -35,7 +35,7 @@ export default async function HomePage() {
           </div>
         </form>
         <p className="mt-4 inline-block rounded-md bg-amber-50 border border-amber-200 px-3 py-1.5 text-xs text-amber-800">
-          Supplier listings shown are placeholder demo data while we onboard real suppliers.
+          Supplier details are sourced from public listings and research, not independently verified by us yet — please confirm before ordering.
         </p>
       </section>
 

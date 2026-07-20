@@ -9,9 +9,10 @@ export default function AboutPage() {
       </p>
       <p className="mt-4 text-stone-600">
         The directory is starting simple: browse a category, see the suppliers listed, and
-        contact them directly. Supplier data shown today is placeholder/demo data used to
-        illustrate the layout &mdash; real supplier onboarding, quote requests, and reviews are
-        planned as the next steps.
+        contact them directly. Supplier details currently shown are sourced from public company
+        listings and research rather than confirmed directly by us, so please verify details
+        before ordering. Direct supplier onboarding, quote requests, and reviews are planned as
+        the next steps.
       </p>
     </div>
   );
