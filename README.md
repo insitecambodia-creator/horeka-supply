@@ -30,11 +30,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it.
 ## Deploying on Vercel
 
 Set `DATABASE_URL` in the Vercel project's Environment Variables (all environments) to
-your Postgres connection string. The `build` script runs `prisma migrate deploy` before
-`next build`, so pending migrations apply automatically on every deploy. Run
-`npm run db:seed` once (locally, pointed at the production database, or via a one-off
-script) to populate it — seeding isn't run automatically on every build so it won't
-overwrite future manually-managed data.
+your Postgres connection string. The `build` script runs `prisma migrate deploy` and then
+reseeds from `prisma/seed.ts` before `next build`, so every deploy applies pending
+migrations and refreshes the canonical supplier/category data automatically. The seed
+script is idempotent (upserts by slug), so this is safe as long as data only comes from
+`seed.ts` — once a real admin/write flow exists, auto-seeding on every build should be
+removed so it doesn't overwrite manually-entered data.
 
 ## Project structure
 
