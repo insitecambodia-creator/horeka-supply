@@ -28,14 +28,7 @@ export default async function SupplierPage({ params }: Props) {
       </Link>
 
       <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-6">
-        <div className="flex items-start justify-between gap-2">
-          <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
-          {supplier.verified && (
-            <span className="shrink-0 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium px-2 py-0.5 border border-emerald-200">
-              Verified
-            </span>
-          )}
-        </div>
+        <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
         <p className="mt-2 text-stone-600">{supplier.description}</p>
 
         <div className="mt-4 flex flex-wrap gap-2">

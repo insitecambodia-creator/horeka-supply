@@ -79,7 +79,6 @@ const suppliers: SupplierSeed[] = [
     city: "Phnom Penh",
     phone: "+855 (23) 977 355",
     website: "https://makrocambodia.com",
-    verified: true,
     categories: ["fresh-produce", "dry-goods", "beverages", "condiments", "cleaning-products", "consumables"],
   },
   {
@@ -90,7 +89,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 81 888 099",
     email: "info@dksh.com.kh",
     website: "https://dksh.com/kh-en/home",
-    verified: true,
     categories: ["dry-goods", "beverages", "condiments", "consumables", "cleaning-products"],
   },
   {
@@ -100,7 +98,6 @@ const suppliers: SupplierSeed[] = [
     city: "Phnom Penh",
     phone: "+855 23 968 688; +855 17 388 399; +855 16 800 833",
     website: "https://lshcambodia.com",
-    verified: true,
     categories: ["meat-poultry", "eggs-dairy", "bakery", "desserts", "beverages"],
   },
   {
@@ -111,7 +108,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 23 883 100 / 200",
     email: "info@boncafe.com.kh",
     website: "https://boncafe.com.kh",
-    verified: true,
     categories: ["coffee-tea"],
   },
   {
@@ -122,7 +118,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 69 666 999; +855 77 777 970",
     email: "info@kofi.com.kh",
     website: "https://kofi.com.kh",
-    verified: true,
     categories: ["coffee-tea"],
   },
   {
@@ -133,7 +128,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 11 888 270; +855 63 965 533",
     email: "info@phsasia.com.kh",
     website: "https://phsasia.com.kh",
-    verified: true,
     categories: ["cleaning-products", "laundry", "consumables"],
   },
   {
@@ -144,7 +138,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 76 240 4444; +855 12/10 866 648",
     email: "sdc-sell@sdchotelsupply.com",
     website: "https://sdchotelsupply.com",
-    verified: true,
     categories: ["laundry", "consumables"],
   },
   {
@@ -155,7 +148,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 92 249 154",
     email: "nattachai@dahfh.com",
     website: "https://dahoughengenterprise.com",
-    verified: true,
     categories: ["beverages", "dry-goods", "consumables"],
   },
   {
@@ -205,7 +197,6 @@ const suppliers: SupplierSeed[] = [
     phone: "+855 23 933 233",
     email: "info@kh.karcher.com",
     website: "https://karcher.com/kh",
-    verified: true,
     categories: ["cleaning-products", "equipment-maintenance"],
   },
   {
