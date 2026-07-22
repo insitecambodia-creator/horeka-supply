@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getAllCities, getAllSuppliers } from "@/lib/data";
 import { SupplierCard } from "@/components/SupplierCard";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   searchParams: Promise<{ city?: string }>;
 };

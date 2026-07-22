@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getCategoryBySlug, getCitiesForCategory, getSuppliersForCategory } from "@/lib/data";
 import { SupplierCard } from "@/components/SupplierCard";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ city?: string }>;

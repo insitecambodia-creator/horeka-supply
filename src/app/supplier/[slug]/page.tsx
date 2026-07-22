@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getSupplierBySlug } from "@/lib/data";
 import { SupplierBadges } from "@/components/SupplierBadges";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
