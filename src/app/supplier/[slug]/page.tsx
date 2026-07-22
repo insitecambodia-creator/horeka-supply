@@ -66,6 +66,32 @@ export default async function SupplierPage({ params }: Props) {
             </div>
           ))}
         </dl>
+
+        {supplier.products.length > 0 && (
+          <div className="mt-6 border-t border-stone-100 pt-4">
+            <h2 className="text-sm font-semibold text-stone-800 mb-3">Products &amp; pricing</h2>
+            <p className="mb-3 text-xs text-stone-400">
+              Listed by this supplier. Not comparable across suppliers — quality, origin and grade can differ.
+            </p>
+            <ul className="divide-y divide-stone-100">
+              {supplier.products.map((product) => (
+                <li key={product.id} className="flex items-start justify-between gap-4 py-2 text-sm">
+                  <div>
+                    <span className="text-stone-900">{product.name}</span>
+                    {product.unit && <span className="text-stone-400"> — {product.unit}</span>}
+                    {product.notes && <p className="text-xs text-stone-400">{product.notes}</p>}
+                  </div>
+                  {product.price != null && (
+                    <span className="shrink-0 font-medium text-stone-900">
+                      {product.currency === "USD" ? "$" : `${product.currency} `}
+                      {product.price.toFixed(2)}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

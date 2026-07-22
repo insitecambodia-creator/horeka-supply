@@ -108,3 +108,51 @@ curl -X POST https://<your-deployment>/api/admin/suppliers/sync \
   -H "Content-Type: application/json" \
   -d '{"suppliers":[{"name":"Test Supplier","status":"Remove"}]}'
 ```
+
+# Product sync (per-supplier product lists)
+
+Each supplier can optionally list their own products with prices. These are
+shown **only on that supplier's own page** — never as a table comparing
+suppliers against each other, since the same product name from different
+suppliers isn't a fair comparison (origin, grade, and quality differ). There's
+no shared product catalog; every product belongs to exactly one supplier.
+
+The current sheet: **Restaurant Cambodia Supply — Products**
+(`https://docs.google.com/spreadsheets/d/1sZ1V_9Da20OiPlE5um9E9IW-SaM-kgbhIVd-6DT_kP0/edit`).
+
+## Sheet columns
+
+| Column | Required | Notes |
+| --- | --- | --- |
+| Supplier Name | Yes | Must match an existing supplier's name (from the Suppliers sheet) exactly, case-insensitive. Unknown supplier names are skipped with a warning. |
+| Product | Yes | Free text, e.g. "Rib-eye steak". Combined with Supplier Name, this is the key used to match existing rows on re-sync. |
+| Unit | No | Free text, e.g. "per kg", "per case of 24". |
+| Price | No | Numeric; currency symbols are stripped automatically if present. |
+| Currency | No | Defaults to `USD`. |
+| Notes | No | Free text, e.g. grade/origin/minimum order quantity. |
+| Status | No | Set to `Remove` (or `Inactive`/`Delete`) to delete that product on next sync — only Supplier Name and Product are required in that case. |
+
+## The sync endpoint
+
+```
+POST https://<your-deployment>/api/admin/products/sync
+Authorization: Bearer <ADMIN_SYNC_TOKEN>
+Content-Type: application/json
+
+{
+  "products": [
+    {
+      "supplierName": "Boncafé (Cambodia) Ltd.",
+      "name": "Espresso beans (1kg)",
+      "unit": "per kg",
+      "price": 9.5,
+      "currency": "USD",
+      "notes": "Arabica blend",
+      "status": "Active"
+    }
+  ]
+}
+```
+
+Same auth (`ADMIN_SYNC_TOKEN`) and per-row error handling as the supplier
+sync endpoint above.

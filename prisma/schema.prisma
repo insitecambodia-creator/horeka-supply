@@ -39,8 +39,26 @@ model Supplier {
   verified    Boolean  @default(false)
   createdAt   DateTime @default(now())
   categories  SupplierCategory[]
+  products    SupplierProduct[]
 
   @@index([city])
+}
+
+// A supplier's own product list, shown only on that supplier's page — not a
+// cross-supplier catalog or comparison. Products aren't matched against each
+// other (a "cucumber" from one supplier isn't assumed equivalent to another
+// supplier's "cucumber") since quality/origin/grade make that misleading.
+model SupplierProduct {
+  id         String   @id @default(cuid())
+  supplierId String
+  name       String
+  unit       String?
+  price      Float?
+  currency   String   @default("USD")
+  notes      String?
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([supplierId, name])
 }
 
 model SupplierCategory {

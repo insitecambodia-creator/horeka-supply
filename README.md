@@ -51,6 +51,8 @@ by the sync endpoint, so a redeploy never overwrites sheet-driven edits.
   suppliers); not run automatically in production.
 - `src/app/api/admin/suppliers/sync` — token-authenticated endpoint that upserts
   suppliers from the Google Sheet (see [`docs/supplier-sync.md`](docs/supplier-sync.md)).
+- `src/app/api/admin/products/sync` — same pattern, for each supplier's own product
+  list (shown only on that supplier's page, never as a cross-supplier comparison).
 - `src/lib/data.ts` — data-access functions used by the pages.
 - `src/app/page.tsx` — home page: category grid grouped by section, with search.
 - `src/app/category/[slug]` — suppliers within a category, filterable by city.

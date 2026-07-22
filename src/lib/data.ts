@@ -42,7 +42,10 @@ export async function getCitiesForCategory(categoryId: string) {
 export async function getSupplierBySlug(slug: string) {
   return prisma.supplier.findUnique({
     where: { slug },
-    include: { categories: { include: { category: true } } },
+    include: {
+      categories: { include: { category: true } },
+      products: { orderBy: { name: "asc" } },
+    },
   });
 }
 
