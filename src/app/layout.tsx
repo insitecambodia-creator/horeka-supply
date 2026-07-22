@@ -28,6 +28,9 @@ export default function RootLayout({
               <Link href="/" className="hover:text-emerald-700">
                 Categories
               </Link>
+              <Link href="/suppliers" className="hover:text-emerald-700">
+                Suppliers
+              </Link>
               <Link href="/about" className="hover:text-emerald-700">
                 About
               </Link>

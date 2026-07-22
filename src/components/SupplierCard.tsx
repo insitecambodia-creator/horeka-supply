@@ -6,9 +6,10 @@ type SupplierCardProps = {
   description: string;
   city: string;
   phone?: string | null;
+  categories?: { slug: string; name: string; emoji: string }[];
 };
 
-export function SupplierCard({ slug, name, description, city, phone }: SupplierCardProps) {
+export function SupplierCard({ slug, name, description, city, phone, categories }: SupplierCardProps) {
   return (
     <Link
       href={`/supplier/${slug}`}
@@ -20,6 +21,18 @@ export function SupplierCard({ slug, name, description, city, phone }: SupplierC
         <span>📍 {city}</span>
         {phone && <span>📞 {phone}</span>}
       </div>
+      {categories && categories.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {categories.map((category) => (
+            <span
+              key={category.slug}
+              className="rounded-full border border-stone-200 px-2 py-0.5 text-xs text-stone-500"
+            >
+              {category.emoji} {category.name}
+            </span>
+          ))}
+        </div>
+      )}
     </Link>
   );
 }
