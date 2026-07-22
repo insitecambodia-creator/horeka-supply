@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SupplierBadges } from "@/components/SupplierBadges";
 
 type SupplierCardProps = {
   slug: string;
@@ -6,16 +7,32 @@ type SupplierCardProps = {
   description: string;
   city: string;
   phone?: string | null;
+  verified?: boolean;
+  sponsored?: boolean;
   categories?: { slug: string; name: string; emoji: string }[];
 };
 
-export function SupplierCard({ slug, name, description, city, phone, categories }: SupplierCardProps) {
+export function SupplierCard({
+  slug,
+  name,
+  description,
+  city,
+  phone,
+  verified,
+  sponsored,
+  categories,
+}: SupplierCardProps) {
   return (
     <Link
       href={`/supplier/${slug}`}
-      className="block rounded-xl border border-stone-200 bg-white p-5 hover:border-emerald-600 hover:shadow-sm transition"
+      className={`block rounded-xl border bg-white p-5 hover:shadow-sm transition ${
+        sponsored ? "border-red-300 hover:border-red-400" : "border-stone-200 hover:border-emerald-600"
+      }`}
     >
-      <h3 className="font-semibold text-stone-900">{name}</h3>
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="font-semibold text-stone-900">{name}</h3>
+        <SupplierBadges verified={verified} sponsored={sponsored} className="shrink-0" />
+      </div>
       <p className="mt-1.5 text-sm text-stone-600 line-clamp-2">{description}</p>
       <div className="mt-3 flex items-center gap-3 text-xs text-stone-500">
         <span>📍 {city}</span>

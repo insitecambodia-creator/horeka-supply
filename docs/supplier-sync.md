@@ -23,6 +23,8 @@ pre-filled with the 20 suppliers already live on the site.
 | Email | No | |
 | Website | No | |
 | Address | No | Free text street address. |
+| Verified | No | `TRUE`/`Yes`/`1` to show a blue "Verified" badge — meant for suppliers you've personally confirmed are real (called them, checked they operate in that category). Leave blank otherwise. Don't set this based on how confident a source *sounds* — that's what led to it being removed once already. |
+| Sponsored | No | `TRUE`/`Yes`/`1` to show a red "Sponsored" badge, highlight the card, and sort this supplier first within its categories (and in the all-suppliers list). This is the paid-placement flag — keep it separate from Verified so paying never implies trust. |
 | Status | No | Leave blank or "Active" for a normal listing. Set to `Remove` (or `Inactive`/`Delete`) to delete that supplier from the database on next sync — only the Name column is required in that case. |
 
 Valid category names (must match one of these, case-insensitive):
@@ -50,6 +52,8 @@ Content-Type: application/json
       "phone": "+855 12 345 678",
       "email": "sales@example.com",
       "website": "https://example.com",
+      "verified": false,
+      "sponsored": false,
       "status": "Active"
     }
   ]

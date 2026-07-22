@@ -15,15 +15,24 @@ type SupplierRow = {
   email?: string;
   website?: string;
   address?: string;
+  verified?: string | boolean;
+  sponsored?: string | boolean;
   status?: string;
 };
 
 const REMOVE_STATUSES = new Set(["remove", "inactive", "delete", "removed", "deleted"]);
+const TRUTHY = new Set(["true", "yes", "y", "1"]);
 
 function splitCategories(input: string | string[] | undefined): string[] {
   if (!input) return [];
   const parts = Array.isArray(input) ? input : input.split(/[,;]/);
   return parts.map((p) => p.trim()).filter(Boolean);
+}
+
+function parseBoolean(input: string | boolean | undefined): boolean {
+  if (typeof input === "boolean") return input;
+  if (!input) return false;
+  return TRUTHY.has(input.trim().toLowerCase());
 }
 
 export async function POST(request: NextRequest) {
@@ -114,6 +123,8 @@ export async function POST(request: NextRequest) {
       telegram: row.telegram?.trim() || null,
       email: row.email?.trim() || null,
       website: row.website?.trim() || null,
+      verified: parseBoolean(row.verified),
+      sponsored: parseBoolean(row.sponsored),
     };
 
     const existing = await prisma.supplier.findUnique({ where: { slug } });

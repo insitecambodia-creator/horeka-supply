@@ -25,7 +25,7 @@ export async function getSuppliersForCategory(categoryId: string, city?: string)
       categories: { some: { categoryId } },
       ...(city ? { city } : {}),
     },
-    orderBy: { name: "asc" },
+    orderBy: [{ sponsored: "desc" }, { name: "asc" }],
   });
 }
 
@@ -43,7 +43,7 @@ export async function getAllSuppliers(city?: string) {
   return prisma.supplier.findMany({
     where: city ? { city } : undefined,
     include: { categories: { include: { category: true } } },
-    orderBy: { name: "asc" },
+    orderBy: [{ sponsored: "desc" }, { name: "asc" }],
   });
 }
 
@@ -76,7 +76,7 @@ export async function searchSuppliersAndCategories(query: string) {
     prisma.category.findMany({ orderBy: { sortOrder: "asc" } }),
     prisma.supplier.findMany({
       include: { categories: { include: { category: true } } },
-      orderBy: { name: "asc" },
+      orderBy: [{ sponsored: "desc" }, { name: "asc" }],
     }),
   ]);
 

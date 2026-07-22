@@ -37,6 +37,7 @@ model Supplier {
   email       String?
   website     String?
   verified    Boolean  @default(false)
+  sponsored   Boolean  @default(false)
   createdAt   DateTime @default(now())
   categories  SupplierCategory[]
   products    SupplierProduct[]

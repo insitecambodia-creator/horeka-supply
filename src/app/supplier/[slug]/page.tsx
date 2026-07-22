@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSupplierBySlug } from "@/lib/data";
+import { SupplierBadges } from "@/components/SupplierBadges";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -27,8 +28,15 @@ export default async function SupplierPage({ params }: Props) {
         ← Back to category
       </Link>
 
-      <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-6">
-        <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
+      <div
+        className={`mt-4 rounded-2xl border bg-white p-6 ${
+          supplier.sponsored ? "border-red-300" : "border-stone-200"
+        }`}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
+          <SupplierBadges verified={supplier.verified} sponsored={supplier.sponsored} className="shrink-0" />
+        </div>
         <p className="mt-2 text-stone-600">{supplier.description}</p>
 
         <div className="mt-4 flex flex-wrap gap-2">
