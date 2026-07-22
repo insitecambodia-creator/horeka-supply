@@ -37,7 +37,7 @@ export default async function SupplierPage({ params }: Props) {
           <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
           <SupplierBadges verified={supplier.verified} sponsored={supplier.sponsored} className="shrink-0" />
         </div>
-        <p className="mt-2 text-stone-600">{supplier.description}</p>
+        {supplier.description && <p className="mt-2 text-stone-600">{supplier.description}</p>}
 
         <div className="mt-4 flex flex-wrap gap-2">
           {supplier.categories.map(({ category }) => (

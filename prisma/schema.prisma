@@ -28,7 +28,7 @@ model Supplier {
   id          String   @id @default(cuid())
   slug        String   @unique
   name        String
-  description String
+  description String?
   city        String
   address     String?
   phone       String?

@@ -15,7 +15,7 @@ pre-filled with the 20 suppliers already live on the site.
 | Column | Required | Notes |
 | --- | --- | --- |
 | Name | Yes | Used to derive the supplier's URL slug. Renaming a supplier creates a new entry rather than renaming the existing one — treat name as a stable identifier. |
-| Description | Yes (unless removing) | Shown on the supplier's page and card. |
+| Description | No | Shown on the supplier's page and card if present; the section is just omitted otherwise. Fill in when you can, but it's not a blocker for getting a supplier listed. |
 | City | Yes (unless removing) | Free text, e.g. "Phnom Penh". |
 | Categories | Yes (unless removing) | Comma-separated category names (e.g. `Coffee & tea, Consumables`) or slugs (e.g. `coffee-tea, consumables`). Unknown categories are ignored with a warning, not fatal. |
 | Phone | No | |

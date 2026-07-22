@@ -86,7 +86,7 @@ export async function searchSuppliersAndCategories(query: string) {
   const suppliers = allSuppliers.filter(
     (s) =>
       s.name.toLowerCase().includes(q) ||
-      s.description.toLowerCase().includes(q) ||
+      (s.description?.toLowerCase().includes(q) ?? false) ||
       s.city.toLowerCase().includes(q)
   );
 

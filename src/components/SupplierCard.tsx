@@ -4,7 +4,7 @@ import { SupplierBadges } from "@/components/SupplierBadges";
 type SupplierCardProps = {
   slug: string;
   name: string;
-  description: string;
+  description?: string | null;
   city: string;
   phone?: string | null;
   verified?: boolean;
@@ -33,7 +33,7 @@ export function SupplierCard({
         <h3 className="font-semibold text-stone-900">{name}</h3>
         <SupplierBadges verified={verified} sponsored={sponsored} className="shrink-0" />
       </div>
-      <p className="mt-1.5 text-sm text-stone-600 line-clamp-2">{description}</p>
+      {description && <p className="mt-1.5 text-sm text-stone-600 line-clamp-2">{description}</p>}
       <div className="mt-3 flex items-center gap-3 text-xs text-stone-500">
         <span>📍 {city}</span>
         {phone && <span>📞 {phone}</span>}

@@ -91,10 +91,10 @@ export async function POST(request: NextRequest) {
       continue;
     }
 
-    const description = row.description?.trim();
+    const description = row.description?.trim() || null;
     const city = row.city?.trim();
-    if (!description || !city) {
-      warnings.push(`${rowLabel}: missing description or city, skipped`);
+    if (!city) {
+      warnings.push(`${rowLabel}: missing city, skipped`);
       continue;
     }
 
