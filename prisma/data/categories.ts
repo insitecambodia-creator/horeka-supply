@@ -47,4 +47,5 @@ export const categories: CategorySeed[] = [
   { slug: "pos-hardware", name: "POS hardware", emoji: "🧾", typicalItems: "POS terminals, receipt printers, cash drawers, barcode scanners", frequency: "One-time / as needed", group: SETUP },
   { slug: "furniture-fixtures", name: "Furniture & fixtures", emoji: "🪑", typicalItems: "Tables, chairs, bar stools, shelving, counters", frequency: "One-time / as needed", group: SETUP },
   { slug: "signage-branding", name: "Signage & branding", emoji: "🪧", typicalItems: "Signboards, menu boards, branding materials", frequency: "One-time / as needed", group: SETUP },
+  { slug: "tableware", name: "Tableware", emoji: "🍴", typicalItems: "Plates, cutlery, glassware, cups & mugs", frequency: "One-time / as needed", group: SETUP },
 ];
