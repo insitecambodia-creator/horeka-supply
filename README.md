@@ -45,7 +45,7 @@ by the sync endpoint, so a redeploy never overwrites sheet-driven edits.
 
 - `prisma/schema.prisma` — data model: `Category`, `Supplier`, and the
   `SupplierCategory` join table (a supplier can serve multiple categories).
-- `prisma/data/categories.ts` — the 29 supply categories (shared by both seed scripts).
+- `prisma/data/categories.ts` — the supply categories (shared by both seed scripts).
 - `prisma/seed-categories.ts` — seeds only categories; runs automatically on every deploy.
 - `prisma/seed.ts` — full local/manual bootstrap (categories + a historical snapshot of
   suppliers); not run automatically in production.

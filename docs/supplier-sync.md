@@ -33,7 +33,14 @@ Beverages, Beer & alcohol, Coffee & tea, Desserts, Condiments, Ice, Cleaning
 products, Packaging, Consumables, Gas supplier, Utilities, Internet, Equipment
 maintenance, Air conditioning, Pest control, Laundry, Security, Flowers &
 decoration, Music licensing, Payment services, POS software, Marketing,
-Insurance.
+Insurance, Kitchen equipment, POS hardware, Furniture & fixtures, Signage &
+branding.
+
+Note the distinction between similarly-named categories: "Equipment
+maintenance" is for repair/servicing of existing equipment, while "Kitchen
+equipment" is for buying new equipment. Likewise "POS software" is the
+subscription/software, while "POS hardware" is the physical terminals/printers
+— aimed at newcomers setting up a new place rather than day-to-day supply.
 
 ## The sync endpoint
 

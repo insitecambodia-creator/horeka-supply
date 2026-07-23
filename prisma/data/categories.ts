@@ -11,6 +11,7 @@ const FOOD = "Food & Beverage";
 const FACILITY = "Facility & Consumables";
 const OPERATIONS = "Utilities & Maintenance";
 const BUSINESS = "Business & Admin";
+const SETUP = "Setup & Equipment";
 
 export const categories: CategorySeed[] = [
   { slug: "fresh-produce", name: "Fresh produce", emoji: "🥬", typicalItems: "Vegetables, fruits, herbs", frequency: "Daily", group: FOOD },
@@ -42,4 +43,8 @@ export const categories: CategorySeed[] = [
   { slug: "pos-software", name: "POS software", emoji: "🖥", typicalItems: "POS subscription & support", frequency: "Monthly", group: BUSINESS },
   { slug: "marketing", name: "Marketing", emoji: "📱", typicalItems: "Facebook ads, graphic design, photography", frequency: "Monthly", group: BUSINESS },
   { slug: "insurance", name: "Insurance", emoji: "🛡", typicalItems: "Property, liability, employee insurance", frequency: "Annual", group: BUSINESS },
+  { slug: "kitchen-equipment", name: "Kitchen equipment", emoji: "🍳", typicalItems: "Ovens, fridges, grills, stainless steel prep tables", frequency: "One-time / as needed", group: SETUP },
+  { slug: "pos-hardware", name: "POS hardware", emoji: "🧾", typicalItems: "POS terminals, receipt printers, cash drawers, barcode scanners", frequency: "One-time / as needed", group: SETUP },
+  { slug: "furniture-fixtures", name: "Furniture & fixtures", emoji: "🪑", typicalItems: "Tables, chairs, bar stools, shelving, counters", frequency: "One-time / as needed", group: SETUP },
+  { slug: "signage-branding", name: "Signage & branding", emoji: "🪧", typicalItems: "Signboards, menu boards, branding materials", frequency: "One-time / as needed", group: SETUP },
 ];
