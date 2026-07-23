@@ -35,6 +35,9 @@ Set these in the Vercel project's Environment Variables (all environments):
 - `DATABASE_URL` — your Postgres connection string.
 - `ADMIN_SYNC_TOKEN` — a random secret; required by the supplier sync endpoint
   (see [`docs/supplier-sync.md`](docs/supplier-sync.md)).
+- `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME` — required for the
+  category-page buyer inquiry widget to actually send email (see
+  [`docs/inquiries.md`](docs/inquiries.md)).
 
 The `build` script runs `prisma migrate deploy` and then `prisma/seed-categories.ts`
 before `next build`, so every deploy applies pending migrations and refreshes the 29
@@ -53,6 +56,9 @@ by the sync endpoint, so a redeploy never overwrites sheet-driven edits.
   suppliers from the Google Sheet (see [`docs/supplier-sync.md`](docs/supplier-sync.md)).
 - `src/app/api/admin/products/sync` — same pattern, for each supplier's own product
   list (shown only on that supplier's page, never as a cross-supplier comparison).
+- `src/app/api/inquiries` — public endpoint behind the category-page "request a
+  quote" widget; emails every supplier in a category via Brevo (see
+  [`docs/inquiries.md`](docs/inquiries.md)).
 - `src/lib/data.ts` — data-access functions used by the pages.
 - `src/app/page.tsx` — home page: category grid grouped by section, with search.
 - `src/app/category/[slug]` — suppliers within a category, filterable by city.

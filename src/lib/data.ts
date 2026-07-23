@@ -29,6 +29,15 @@ export async function getSuppliersForCategory(categoryId: string, city?: string)
   });
 }
 
+// Independent of any city filter, since /api/inquiries always emails every
+// supplier in the category regardless of what filter the visitor has applied.
+export async function categoryHasEmailSupplier(categoryId: string) {
+  const count = await prisma.supplier.count({
+    where: { categories: { some: { categoryId } }, email: { not: null } },
+  });
+  return count > 0;
+}
+
 export async function getCitiesForCategory(categoryId: string) {
   const suppliers = await prisma.supplier.findMany({
     where: { categories: { some: { categoryId } } },

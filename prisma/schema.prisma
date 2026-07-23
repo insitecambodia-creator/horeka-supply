@@ -20,6 +20,7 @@ model Category {
   group       String   @default("Other")
   sortOrder   Int      @default(0)
   suppliers   SupplierCategory[]
+  inquiries   Inquiry[]
 
   @@index([sortOrder])
 }
@@ -60,6 +61,26 @@ model SupplierProduct {
   supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
 
   @@unique([supplierId, name])
+}
+
+// A buyer's request, emailed out to every supplier in a category that has an
+// email on file. Covers both the simple category-page widget (just an email)
+// and a future fuller RFQ form (adds item/quantity/notes) — same backend.
+model Inquiry {
+  id           String    @id @default(cuid())
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  buyerEmail   String
+  buyerName    String?
+  business     String?
+  item         String?
+  quantity     String?
+  notes        String?
+  suppliersSent Int      @default(0)
+  createdAt    DateTime  @default(now())
+
+  @@index([categoryId])
+  @@index([buyerEmail, categoryId])
 }
 
 model SupplierCategory {

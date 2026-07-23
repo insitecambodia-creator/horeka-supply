@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCategoryBySlug, getCitiesForCategory, getSuppliersForCategory } from "@/lib/data";
+import { categoryHasEmailSupplier, getCategoryBySlug, getCitiesForCategory, getSuppliersForCategory } from "@/lib/data";
 import { SupplierCard } from "@/components/SupplierCard";
+import { InquiryForm } from "@/components/InquiryForm";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +18,10 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
-  const [suppliers, cities] = await Promise.all([
+  const [suppliers, cities, hasEmailSupplier] = await Promise.all([
     getSuppliersForCategory(category.id, city),
     getCitiesForCategory(category.id),
+    categoryHasEmailSupplier(category.id),
   ]);
 
   return (
@@ -59,6 +61,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
               {c}
             </Link>
           ))}
+        </div>
+      )}
+
+      {hasEmailSupplier && (
+        <div className="mt-6">
+          <InquiryForm categorySlug={slug} />
         </div>
       )}
 
