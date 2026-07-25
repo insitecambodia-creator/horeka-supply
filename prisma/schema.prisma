@@ -90,21 +90,32 @@ model Inquiry {
 // actual Supplier/SupplierProduct rows happens by hand via the sync endpoints
 // once reviewed, same as sheet-driven submissions.
 model SupplierSubmission {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  city        String?
-  address     String?
-  phone       String?
-  whatsapp    String?
-  telegram    String?
-  email       String?
-  website     String?
-  categories  String[]
-  products    Json?
-  brands      String[]
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  city            String?
+  address         String?
+  phone           String?
+  whatsapp        String?
+  telegram        String?
+  email           String?
+  website         String?
+  facebook        String?
+  supplierType    String?
+  areasServed     String[]
+  nationwide      Boolean  @default(false)
+  delivery        Boolean  @default(false)
+  pickup          Boolean  @default(false)
+  categories      String[]
+  otherCategory   String?
+  products        Json?
+  brands          String[]
+  // Private verification contact — never published, used only so we can
+  // reach the actual submitter (per Franck's Telegram-based verify process).
+  contactTelegram String?
+  consent         Boolean  @default(false)
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
 
   @@index([status])
 }

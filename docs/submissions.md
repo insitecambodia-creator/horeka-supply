@@ -40,21 +40,35 @@ To make the subdomain live:
 ```json
 {
   "name": "Business name",
-  "description": "optional",
+  "description": "required",
+  "supplierType": "Distributor",
   "city": "optional",
   "address": "optional",
+  "areasServed": ["Phnom Penh", "Siem Reap"],
+  "nationwide": false,
+  "delivery": true,
+  "pickup": false,
   "phone": "optional",
   "whatsapp": "optional",
   "telegram": "optional",
   "email": "optional",
   "website": "optional",
+  "facebook": "optional",
   "categories": ["Fresh produce", "Meat & poultry"],
+  "otherCategory": "optional free-text fallback if their category is missing",
   "products": [{ "name": "Cucumber", "unit": "kg", "price": "1.20" }],
-  "brands": ["Kraft", "Elle & Vire"]
+  "brands": ["Kraft", "Elle & Vire"],
+  "contactTelegram": "@theirhandle",
+  "consent": true
 }
 ```
 
-Requires `name` and at least one of `phone` / `email` / `whatsapp`.
+Requires `name`, `description`, at least one of `phone` / `email` /
+`whatsapp` (the *public* contact shown on the eventual listing),
+`contactTelegram` (a *private* handle used only so Franck can verify the
+submitter is real — never published), and `consent: true` (confirms the
+submitter is authorized and the info is accurate).
+
 Includes a honeypot field (`company`) — bots that fill it in get a silent
 `{ ok: true }` with nothing saved.
 

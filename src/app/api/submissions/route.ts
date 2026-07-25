@@ -20,9 +20,18 @@ type SubmissionBody = {
   telegram?: string;
   email?: string;
   website?: string;
+  facebook?: string;
+  supplierType?: string;
+  areasServed?: string[];
+  nationwide?: boolean;
+  delivery?: boolean;
+  pickup?: boolean;
   categories?: string[];
+  otherCategory?: string;
   products?: ProductRow[];
   brands?: string[];
+  contactTelegram?: string;
+  consent?: boolean;
   // Honeypot: a real visitor never fills this in.
   company?: string;
 };
@@ -47,19 +56,31 @@ export async function POST(request: NextRequest) {
   }
 
   const name = body.name?.trim();
+  const description = body.description?.trim();
   const phone = body.phone?.trim();
   const email = body.email?.trim();
   const whatsapp = body.whatsapp?.trim();
+  const contactTelegram = body.contactTelegram?.trim();
 
   if (!name) {
     return NextResponse.json({ error: "Business name is required" }, { status: 400 });
   }
+  if (!description) {
+    return NextResponse.json({ error: "A short description is required" }, { status: 400 });
+  }
   if (!phone && !email && !whatsapp) {
     return NextResponse.json({ error: "Please provide at least one way to contact you (phone, email, or WhatsApp)" }, { status: 400 });
+  }
+  if (!contactTelegram) {
+    return NextResponse.json({ error: "Your Telegram handle is required so we can verify this submission" }, { status: 400 });
+  }
+  if (!body.consent) {
+    return NextResponse.json({ error: "Please confirm you're authorized to submit this business" }, { status: 400 });
   }
 
   const categories = (body.categories ?? []).map((c) => c.trim()).filter(Boolean);
   const brands = (body.brands ?? []).map((b) => b.trim()).filter(Boolean);
+  const areasServed = (body.areasServed ?? []).map((a) => a.trim()).filter(Boolean);
   const products = (body.products ?? [])
     .map((p) => ({ name: p.name?.trim() ?? "", unit: p.unit?.trim() || undefined, price: p.price?.trim() || undefined }))
     .filter((p) => p.name);
@@ -67,7 +88,7 @@ export async function POST(request: NextRequest) {
   const submission = await prisma.supplierSubmission.create({
     data: {
       name,
-      description: body.description?.trim() || null,
+      description,
       city: body.city?.trim() || null,
       address: body.address?.trim() || null,
       phone: phone || null,
@@ -75,9 +96,18 @@ export async function POST(request: NextRequest) {
       telegram: body.telegram?.trim() || null,
       email: email || null,
       website: body.website?.trim() || null,
+      facebook: body.facebook?.trim() || null,
+      supplierType: body.supplierType?.trim() || null,
+      areasServed,
+      nationwide: Boolean(body.nationwide),
+      delivery: Boolean(body.delivery),
+      pickup: Boolean(body.pickup),
       categories,
+      otherCategory: body.otherCategory?.trim() || null,
       products: products.length > 0 ? products : undefined,
       brands,
+      contactTelegram,
+      consent: Boolean(body.consent),
     },
   });
 
@@ -85,15 +115,24 @@ export async function POST(request: NextRequest) {
   if (adminEmail) {
     const rows: string[] = [
       `<p><strong>Business:</strong> ${escapeHtml(name)}</p>`,
-      body.description && `<p><strong>Description:</strong> ${escapeHtml(body.description)}</p>`,
-      body.city && `<p><strong>City:</strong> ${escapeHtml(body.city)}</p>`,
+      `<p><strong>Verify via Telegram:</strong> ${escapeHtml(contactTelegram)}</p>`,
+      `<p><strong>Description:</strong> ${escapeHtml(description)}</p>`,
+      body.supplierType && `<p><strong>Supplier type:</strong> ${escapeHtml(body.supplierType)}</p>`,
+      body.city && `<p><strong>Base city:</strong> ${escapeHtml(body.city)}</p>`,
       body.address && `<p><strong>Address:</strong> ${escapeHtml(body.address)}</p>`,
+      areasServed.length > 0 && `<p><strong>Areas served:</strong> ${escapeHtml(areasServed.join(", "))}</p>`,
+      (body.nationwide || body.delivery || body.pickup) &&
+        `<p><strong>Coverage:</strong> ${[body.nationwide && "Nationwide", body.delivery && "Delivery", body.pickup && "Pickup"]
+          .filter(Boolean)
+          .join(", ")}</p>`,
       phone && `<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>`,
       whatsapp && `<p><strong>WhatsApp:</strong> ${escapeHtml(whatsapp)}</p>`,
-      body.telegram && `<p><strong>Telegram:</strong> ${escapeHtml(body.telegram)}</p>`,
+      body.telegram && `<p><strong>Business Telegram:</strong> ${escapeHtml(body.telegram)}</p>`,
       email && `<p><strong>Email:</strong> ${escapeHtml(email)}</p>`,
       body.website && `<p><strong>Website:</strong> ${escapeHtml(body.website)}</p>`,
+      body.facebook && `<p><strong>Facebook:</strong> ${escapeHtml(body.facebook)}</p>`,
       categories.length > 0 && `<p><strong>Categories:</strong> ${escapeHtml(categories.join(", "))}</p>`,
+      body.otherCategory && `<p><strong>Other category (suggested):</strong> ${escapeHtml(body.otherCategory)}</p>`,
       brands.length > 0 && `<p><strong>Brands:</strong> ${escapeHtml(brands.join(", "))}</p>`,
       products.length > 0 &&
         `<p><strong>Products:</strong></p><ul>${products
