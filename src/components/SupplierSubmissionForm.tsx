@@ -363,9 +363,8 @@ export function SupplierSubmissionForm({ categoryGroups }: { categoryGroups: Cat
           or Telegram — it&apos;s not automatic just for submitting this form.
         </p>
         <div>
-          <label className={labelClass}>Your Telegram handle *</label>
+          <label className={labelClass}>Your Telegram handle (recommended)</label>
           <input
-            required
             value={contactTelegram}
             onChange={(e) => setContactTelegram(e.target.value)}
             className={inputClass}

@@ -64,10 +64,11 @@ To make the subdomain live:
 ```
 
 Requires `name`, `description`, at least one of `phone` / `email` /
-`whatsapp` (the *public* contact shown on the eventual listing),
-`contactTelegram` (a *private* handle used only so Franck can verify the
-submitter is real — never published), and `consent: true` (confirms the
-submitter is authorized and the info is accurate).
+`whatsapp` (the *public* contact shown on the eventual listing), and
+`consent: true` (confirms the submitter is authorized and the info is
+accurate). `contactTelegram` (a *private* handle used only so Franck can
+verify the submitter is real — never published) is recommended but
+optional, so the form doesn't block a submitter who has no Telegram.
 
 Includes a honeypot field (`company`) — bots that fill it in get a silent
 `{ ok: true }` with nothing saved.

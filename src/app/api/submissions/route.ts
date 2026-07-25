@@ -71,9 +71,6 @@ export async function POST(request: NextRequest) {
   if (!phone && !email && !whatsapp) {
     return NextResponse.json({ error: "Please provide at least one way to contact you (phone, email, or WhatsApp)" }, { status: 400 });
   }
-  if (!contactTelegram) {
-    return NextResponse.json({ error: "Your Telegram handle is required so we can verify this submission" }, { status: 400 });
-  }
   if (!body.consent) {
     return NextResponse.json({ error: "Please confirm you're authorized to submit this business" }, { status: 400 });
   }
@@ -115,7 +112,7 @@ export async function POST(request: NextRequest) {
   if (adminEmail) {
     const rows: string[] = [
       `<p><strong>Business:</strong> ${escapeHtml(name)}</p>`,
-      `<p><strong>Verify via Telegram:</strong> ${escapeHtml(contactTelegram)}</p>`,
+      contactTelegram && `<p><strong>Verify via Telegram:</strong> ${escapeHtml(contactTelegram)}</p>`,
       `<p><strong>Description:</strong> ${escapeHtml(description)}</p>`,
       body.supplierType && `<p><strong>Supplier type:</strong> ${escapeHtml(body.supplierType)}</p>`,
       body.city && `<p><strong>Base city:</strong> ${escapeHtml(body.city)}</p>`,
