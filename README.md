@@ -38,6 +38,8 @@ Set these in the Vercel project's Environment Variables (all environments):
 - `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME` — required for the
   category-page buyer inquiry widget to actually send email (see
   [`docs/inquiries.md`](docs/inquiries.md)).
+- `ADMIN_EMAIL` — where new supplier self-submissions are emailed for review
+  (see [`docs/submissions.md`](docs/submissions.md)).
 
 The `build` script runs `prisma migrate deploy` and then `prisma/seed-categories.ts`
 before `next build`, so every deploy applies pending migrations and refreshes the 29
@@ -59,6 +61,9 @@ by the sync endpoint, so a redeploy never overwrites sheet-driven edits.
 - `src/app/api/inquiries` — public endpoint behind the category-page "request a
   quote" widget; emails every supplier in a category via Brevo (see
   [`docs/inquiries.md`](docs/inquiries.md)).
+- `src/app/join` and `src/app/api/submissions` — the supplier self-submission
+  form, reachable at `supplier.restaurant-cambodia.com` via `src/proxy.ts`
+  (see [`docs/submissions.md`](docs/submissions.md)).
 - `src/lib/data.ts` — data-access functions used by the pages.
 - `src/app/page.tsx` — home page: category grid grouped by section, with search.
 - `src/app/category/[slug]` — suppliers within a category, filterable by city.

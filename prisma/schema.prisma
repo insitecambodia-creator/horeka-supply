@@ -83,6 +83,32 @@ model Inquiry {
   @@index([buyerEmail, categoryId])
 }
 
+// A raw self-submission from the public form (supplier.restaurant-cambodia.com),
+// pending manual review — never becomes a live Supplier automatically. Category
+// names, product rows, and brands are stored as-submitted (JSON/arrays) since
+// this is unvalidated input; mapping to real Category slugs and creating the
+// actual Supplier/SupplierProduct rows happens by hand via the sync endpoints
+// once reviewed, same as sheet-driven submissions.
+model SupplierSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  city        String?
+  address     String?
+  phone       String?
+  whatsapp    String?
+  telegram    String?
+  email       String?
+  website     String?
+  categories  String[]
+  products    Json?
+  brands      String[]
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+
+  @@index([status])
+}
+
 model SupplierCategory {
   supplierId String
   categoryId String
