@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSupplierBySlug } from "@/lib/data";
 import { SupplierBadges } from "@/components/SupplierBadges";
+import { splitPhoneNumbers } from "@/lib/phone";
 
 export const dynamic = "force-dynamic";
 
@@ -14,12 +15,18 @@ export default async function SupplierPage({ params }: Props) {
   const supplier = await getSupplierBySlug(slug);
   if (!supplier) notFound();
 
-  const contactRows: { label: string; value: string; href?: string }[] = [];
-  if (supplier.phone) contactRows.push({ label: "Phone", value: supplier.phone, href: `tel:${supplier.phone}` });
-  if (supplier.whatsapp) contactRows.push({ label: "WhatsApp", value: supplier.whatsapp, href: `https://wa.me/${supplier.whatsapp.replace(/[^\d]/g, "")}` });
-  if (supplier.telegram) contactRows.push({ label: "Telegram", value: supplier.telegram });
-  if (supplier.email) contactRows.push({ label: "Email", value: supplier.email, href: `mailto:${supplier.email}` });
-  if (supplier.website) contactRows.push({ label: "Website", value: supplier.website, href: supplier.website });
+  type ContactEntry = { text: string; href?: string };
+  const contactRows: { label: string; entries: ContactEntry[] }[] = [];
+  if (supplier.phone) {
+    contactRows.push({
+      label: "Phone",
+      entries: splitPhoneNumbers(supplier.phone).map((number) => ({ text: number, href: `tel:${number}` })),
+    });
+  }
+  if (supplier.whatsapp) contactRows.push({ label: "WhatsApp", entries: [{ text: supplier.whatsapp, href: `https://wa.me/${supplier.whatsapp.replace(/[^\d]/g, "")}` }] });
+  if (supplier.telegram) contactRows.push({ label: "Telegram", entries: [{ text: supplier.telegram }] });
+  if (supplier.email) contactRows.push({ label: "Email", entries: [{ text: supplier.email, href: `mailto:${supplier.email}` }] });
+  if (supplier.website) contactRows.push({ label: "Website", entries: [{ text: supplier.website, href: supplier.website }] });
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -65,13 +72,18 @@ export default async function SupplierPage({ params }: Props) {
             <div key={row.label} className="flex justify-between py-2.5 text-sm">
               <dt className="text-stone-500">{row.label}</dt>
               <dd className="text-stone-900 text-right">
-                {row.href ? (
-                  <a href={row.href} className="text-emerald-700 hover:underline" target={row.label === "Website" ? "_blank" : undefined} rel="noreferrer">
-                    {row.value}
-                  </a>
-                ) : (
-                  row.value
-                )}
+                {row.entries.map((entry, i) => (
+                  <span key={i}>
+                    {i > 0 && ", "}
+                    {entry.href ? (
+                      <a href={entry.href} className="text-emerald-700 hover:underline" target={row.label === "Website" ? "_blank" : undefined} rel="noreferrer">
+                        {entry.text}
+                      </a>
+                    ) : (
+                      entry.text
+                    )}
+                  </span>
+                ))}
               </dd>
             </div>
           ))}

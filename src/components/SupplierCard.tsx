@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SupplierBadges } from "@/components/SupplierBadges";
+import { splitPhoneNumbers } from "@/lib/phone";
 
 type SupplierCardProps = {
   slug: string;
@@ -22,6 +23,8 @@ export function SupplierCard({
   sponsored,
   categories,
 }: SupplierCardProps) {
+  const firstPhone = phone ? splitPhoneNumbers(phone)[0] : undefined;
+
   return (
     <Link
       href={`/supplier/${slug}`}
@@ -36,7 +39,7 @@ export function SupplierCard({
       {description && <p className="mt-1.5 text-sm text-stone-600 line-clamp-2">{description}</p>}
       <div className="mt-3 flex items-center gap-3 text-xs text-stone-500">
         <span>📍 {city}</span>
-        {phone && <span>📞 {phone}</span>}
+        {firstPhone && <span>📞 {firstPhone}</span>}
       </div>
       {categories && categories.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
