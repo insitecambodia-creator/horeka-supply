@@ -40,6 +40,8 @@ Set these in the Vercel project's Environment Variables (all environments):
   [`docs/inquiries.md`](docs/inquiries.md)).
 - `ADMIN_EMAIL` — where new supplier self-submissions are emailed for review
   (see [`docs/submissions.md`](docs/submissions.md)).
+- `NEXT_PUBLIC_GTM_ID` — Google Tag Manager container ID (e.g. `GTM-XXXXXXX`).
+  Optional; when unset, GTM simply isn't loaded.
 
 The `build` script runs `prisma migrate deploy` and then `prisma/seed-categories.ts`
 before `next build`, so every deploy applies pending migrations and refreshes the 29

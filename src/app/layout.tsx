@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
+
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
   title: "Restaurant Cambodia Supply | Find suppliers for hotels, restaurants & cafés",
@@ -15,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
+      {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
       <body className="min-h-full flex flex-col bg-stone-50 text-stone-900">
         <header className="border-b border-stone-200 bg-white sticky top-0 z-10">
           <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between gap-4">
