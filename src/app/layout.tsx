@@ -47,7 +47,7 @@ export default function RootLayout({
               <Link href="/about" className="hover:text-emerald-700">
                 About
               </Link>
-              <Link href="/join" className="hover:text-emerald-700">
+              <Link href="/join" className="rounded-lg bg-emerald-700 px-4 py-2 text-white hover:bg-emerald-800">
                 List your business
               </Link>
             </nav>
