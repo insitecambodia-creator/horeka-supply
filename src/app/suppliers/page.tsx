@@ -63,7 +63,7 @@ export default async function SuppliersPage({ searchParams }: Props) {
             city={supplier.city}
             phone={supplier.phone}
             verified={supplier.verified}
-            sponsored={supplier.sponsored}
+            featured={supplier.featured}
             categories={supplier.categories.map(({ category }) => ({
               slug: category.slug,
               name: category.name,

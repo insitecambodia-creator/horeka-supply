@@ -9,7 +9,7 @@ type SupplierCardProps = {
   city: string;
   phone?: string | null;
   verified?: boolean;
-  sponsored?: boolean;
+  featured?: boolean;
   categories?: { slug: string; name: string; emoji: string }[];
 };
 
@@ -20,7 +20,7 @@ export function SupplierCard({
   city,
   phone,
   verified,
-  sponsored,
+  featured,
   categories,
 }: SupplierCardProps) {
   const firstPhone = phone ? splitPhoneNumbers(phone)[0] : undefined;
@@ -29,12 +29,12 @@ export function SupplierCard({
     <Link
       href={`/supplier/${slug}`}
       className={`block rounded-xl border bg-white p-5 hover:shadow-sm transition ${
-        sponsored ? "border-red-300 hover:border-red-400" : "border-stone-200 hover:border-emerald-600"
+        featured ? "border-amber-300 hover:border-amber-400" : "border-stone-200 hover:border-emerald-600"
       }`}
     >
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-semibold text-stone-900">{name}</h3>
-        <SupplierBadges verified={verified} sponsored={sponsored} className="shrink-0" />
+        <SupplierBadges verified={verified} featured={featured} className="shrink-0" />
       </div>
       {description && <p className="mt-1.5 text-sm text-stone-600 line-clamp-2">{description}</p>}
       <div className="mt-3 flex items-center gap-3 text-xs text-stone-500">

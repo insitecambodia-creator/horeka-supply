@@ -1,20 +1,20 @@
 type SupplierBadgesProps = {
   verified?: boolean;
-  sponsored?: boolean;
+  featured?: boolean;
   className?: string;
 };
 
-export function SupplierBadges({ verified, sponsored, className }: SupplierBadgesProps) {
-  if (!verified && !sponsored) return null;
+export function SupplierBadges({ verified, featured, className }: SupplierBadgesProps) {
+  if (!verified && !featured) return null;
 
   return (
     <div className={`flex items-center gap-2 ${className ?? ""}`}>
-      {sponsored && (
-        <span className="inline-flex items-center gap-1 text-xs font-medium text-red-600">
+      {featured && (
+        <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600">
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
             <path d="M10 1.5l2.53 5.13 5.66.82-4.1 4 .97 5.64L10 14.5l-5.06 2.66.97-5.64-4.1-4 5.66-.82L10 1.5z" />
           </svg>
-          Sponsored
+          Featured
         </span>
       )}
       {verified && (

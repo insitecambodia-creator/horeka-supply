@@ -16,7 +16,7 @@ type SupplierRow = {
   website?: string;
   address?: string;
   verified?: string | boolean;
-  sponsored?: string | boolean;
+  featured?: string | boolean;
   status?: string;
 };
 
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
       email: row.email?.trim() || null,
       website: row.website?.trim() || null,
       verified: parseBoolean(row.verified),
-      sponsored: parseBoolean(row.sponsored),
+      featured: parseBoolean(row.featured),
     };
 
     const existing = await prisma.supplier.findUnique({ where: { slug } });

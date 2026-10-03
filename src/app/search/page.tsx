@@ -73,7 +73,7 @@ export default async function SearchPage({ searchParams }: Props) {
                 city={supplier.city}
                 phone={supplier.phone}
                 verified={supplier.verified}
-                sponsored={supplier.sponsored}
+                featured={supplier.featured}
               />
             ))}
           </div>

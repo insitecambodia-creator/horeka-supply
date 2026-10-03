@@ -39,12 +39,12 @@ export default async function SupplierPage({ params }: Props) {
 
       <div
         className={`mt-4 rounded-2xl border bg-white p-6 ${
-          supplier.sponsored ? "border-red-300" : "border-stone-200"
+          supplier.featured ? "border-amber-300" : "border-stone-200"
         }`}
       >
         <div className="flex items-start justify-between gap-2">
           <h1 className="text-2xl font-bold text-stone-900">{supplier.name}</h1>
-          <SupplierBadges verified={supplier.verified} sponsored={supplier.sponsored} className="shrink-0" />
+          <SupplierBadges verified={supplier.verified} featured={supplier.featured} className="shrink-0" />
         </div>
         {supplier.description && <p className="mt-2 text-stone-600">{supplier.description}</p>}
 
