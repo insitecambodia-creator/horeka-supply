@@ -8,7 +8,10 @@ import "./globals.css";
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
-  title: "Restaurant Cambodia Supply | Find suppliers for hotels, restaurants & cafés",
+  title: {
+    default: "Restaurant Cambodia Supply | Find suppliers for hotels, restaurants & cafés",
+    template: "%s | Restaurant Cambodia Supply",
+  },
   description:
     "A directory of suppliers for hotels, restaurants and cafés in Cambodia — fresh produce, meat & seafood, beverages, cleaning, maintenance, and more.",
 };

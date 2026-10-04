@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categoryHasEmailSupplier, getCategoryBySlug, getCitiesForCategory, getSuppliersForCategory } from "@/lib/data";
@@ -10,6 +11,12 @@ type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ city?: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+  return { title: category ? `${category.name} suppliers in Cambodia` : "Category not found" };
+}
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { slug } = await params;

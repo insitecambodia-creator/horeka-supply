@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSupplierBySlug } from "@/lib/data";
@@ -9,6 +10,12 @@ export const dynamic = "force-dynamic";
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const supplier = await getSupplierBySlug(slug);
+  return { title: supplier ? supplier.name : "Supplier not found" };
+}
 
 export default async function SupplierPage({ params }: Props) {
   const { slug } = await params;

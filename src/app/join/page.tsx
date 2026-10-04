@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { getCategoriesGrouped } from "@/lib/data";
 import { SupplierSubmissionForm } from "@/components/SupplierSubmissionForm";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "List your business" };
 
 export default async function JoinPage() {
   const groups = await getCategoriesGrouped();

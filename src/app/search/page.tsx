@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { searchSuppliersAndCategories } from "@/lib/data";
 import { SupplierCard } from "@/components/SupplierCard";
@@ -7,6 +8,11 @@ export const dynamic = "force-dynamic";
 type Props = {
   searchParams: Promise<{ q?: string }>;
 };
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { q } = await searchParams;
+  return { title: q?.trim() ? `Search: ${q.trim()}` : "Search" };
+}
 
 export default async function SearchPage({ searchParams }: Props) {
   const { q = "" } = await searchParams;

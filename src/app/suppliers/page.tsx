@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllCities, getAllSuppliers } from "@/lib/data";
 import { SupplierCard } from "@/components/SupplierCard";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "All suppliers" };
 
 type Props = {
   searchParams: Promise<{ city?: string }>;
