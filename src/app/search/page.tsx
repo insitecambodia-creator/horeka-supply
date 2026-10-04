@@ -80,6 +80,7 @@ export default async function SearchPage({ searchParams }: Props) {
                 phone={supplier.phone}
                 verified={supplier.verified}
                 featured={supplier.featured}
+                lastCheckedAt={supplier.lastCheckedAt}
               />
             ))}
           </div>

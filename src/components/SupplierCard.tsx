@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SupplierBadges } from "@/components/SupplierBadges";
 import { splitPhoneNumbers } from "@/lib/phone";
+import { formatDate } from "@/lib/date";
 
 type SupplierCardProps = {
   slug: string;
@@ -10,6 +11,7 @@ type SupplierCardProps = {
   phone?: string | null;
   verified?: boolean;
   featured?: boolean;
+  lastCheckedAt: Date;
   categories?: { slug: string; name: string; emoji: string }[];
 };
 
@@ -21,6 +23,7 @@ export function SupplierCard({
   phone,
   verified,
   featured,
+  lastCheckedAt,
   categories,
 }: SupplierCardProps) {
   const firstPhone = phone ? splitPhoneNumbers(phone)[0] : undefined;
@@ -53,6 +56,7 @@ export function SupplierCard({
           ))}
         </div>
       )}
+      <p className="mt-3 text-xs text-stone-400">Last checked {formatDate(lastCheckedAt)}</p>
     </Link>
   );
 }

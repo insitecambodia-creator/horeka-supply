@@ -66,6 +66,7 @@ export default async function SuppliersPage({ searchParams }: Props) {
             phone={supplier.phone}
             verified={supplier.verified}
             featured={supplier.featured}
+            lastCheckedAt={supplier.lastCheckedAt}
             categories={supplier.categories.map(({ category }) => ({
               slug: category.slug,
               name: category.name,

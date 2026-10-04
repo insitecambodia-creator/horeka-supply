@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getSupplierBySlug } from "@/lib/data";
 import { SupplierBadges } from "@/components/SupplierBadges";
 import { splitPhoneNumbers } from "@/lib/phone";
+import { formatDate } from "@/lib/date";
 
 export const dynamic = "force-dynamic";
 
@@ -74,6 +75,10 @@ export default async function SupplierPage({ params }: Props) {
               {supplier.city}
               {supplier.address ? `, ${supplier.address}` : ""}
             </dd>
+          </div>
+          <div className="flex justify-between py-2.5 text-sm">
+            <dt className="text-stone-500">Last checked</dt>
+            <dd className="text-stone-900 text-right">{formatDate(supplier.lastCheckedAt)}</dd>
           </div>
           {contactRows.map((row) => (
             <div key={row.label} className="flex justify-between py-2.5 text-sm">
