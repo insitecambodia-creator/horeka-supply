@@ -38,7 +38,7 @@ export const categories: CategorySeed[] = [
   { slug: "laundry", name: "Laundry", emoji: "👕", typicalItems: "Tablecloths, uniforms", frequency: "Weekly", group: OPERATIONS },
   { slug: "security", name: "Security", emoji: "🔒", typicalItems: "CCTV maintenance, guards", frequency: "Monthly", group: OPERATIONS },
   { slug: "flowers-decoration", name: "Flowers & decoration", emoji: "🌺", typicalItems: "Floral arrangements", frequency: "Weekly", group: BUSINESS },
-  { slug: "music-licensing", name: "Music licensing", emoji: "🎵", typicalItems: "Public music rights (if applicable)", frequency: "Annual", group: BUSINESS },
+  { slug: "music-licensing", name: "Live music agency", emoji: "🎵", typicalItems: "Bands, DJs, solo musicians for events", frequency: "As needed", group: BUSINESS },
   { slug: "payment-services", name: "Payment services", emoji: "💳", typicalItems: "Card & QR payment processing integration", frequency: "Ongoing", group: BUSINESS },
   { slug: "pos-software", name: "POS software", emoji: "🖥", typicalItems: "POS subscription & support", frequency: "Monthly", group: BUSINESS },
   { slug: "marketing", name: "Marketing", emoji: "📱", typicalItems: "Facebook ads, graphic design, photography", frequency: "Monthly", group: BUSINESS },
