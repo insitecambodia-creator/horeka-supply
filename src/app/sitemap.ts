@@ -5,10 +5,17 @@ export const dynamic = "force-dynamic";
 
 const BASE_URL = "https://www.restaurant-cambodia.com";
 
+// Permanently-closed and archived suppliers are excluded here, but their
+// pages are not deindexed/redirected — see src/app/supplier/[slug]/page.tsx
+// for per-status rendering. temporarily_inactive stays in the sitemap since
+// its URL remains indexable.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categories, suppliers] = await Promise.all([
     prisma.category.findMany({ select: { slug: true } }),
-    prisma.supplier.findMany({ select: { slug: true } }),
+    prisma.supplier.findMany({
+      where: { status: { notIn: ["permanently_closed", "archived"] } },
+      select: { slug: true },
+    }),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [

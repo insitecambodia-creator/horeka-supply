@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getSupplierBySlug } from "@/lib/data";
+import { getSupplierBySlug, getActiveSuppliersForCategoryExcluding } from "@/lib/data";
 import { SupplierBadges } from "@/components/SupplierBadges";
 import { splitPhoneNumbers } from "@/lib/phone";
 import { formatDate } from "@/lib/date";
@@ -21,20 +21,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SupplierPage({ params }: Props) {
   const { slug } = await params;
   const supplier = await getSupplierBySlug(slug);
-  if (!supplier) notFound();
+  // Archived suppliers keep their database row but are removed from public
+  // discovery entirely, including their own URL — 404 rather than redirect,
+  // per spec ("do not blindly redirect archived URLs").
+  if (!supplier || supplier.status === "archived") notFound();
+
+  const isTemporarilyInactive = supplier.status === "temporarily_inactive";
+  const isPermanentlyClosed = supplier.status === "permanently_closed";
+  const isInactiveNotice = isTemporarilyInactive || isPermanentlyClosed;
+
+  const alternatives = isPermanentlyClosed && supplier.categories[0]
+    ? await getActiveSuppliersForCategoryExcluding(supplier.categories[0].category.id, supplier.id)
+    : [];
 
   type ContactEntry = { text: string; href?: string };
   const contactRows: { label: string; entries: ContactEntry[] }[] = [];
-  if (supplier.phone) {
+  // Permanently-closed suppliers don't show contact details as though the
+  // business were still reachable; everything else below is unaffected.
+  if (!isPermanentlyClosed && supplier.phone) {
     contactRows.push({
       label: "Phone",
       entries: splitPhoneNumbers(supplier.phone).map((number) => ({ text: number, href: `tel:${number}` })),
     });
   }
-  if (supplier.whatsapp) contactRows.push({ label: "WhatsApp", entries: [{ text: supplier.whatsapp, href: `https://wa.me/${supplier.whatsapp.replace(/[^\d]/g, "")}` }] });
-  if (supplier.telegram) contactRows.push({ label: "Telegram", entries: [{ text: supplier.telegram }] });
-  if (supplier.email) contactRows.push({ label: "Email", entries: [{ text: supplier.email, href: `mailto:${supplier.email}` }] });
-  if (supplier.website) contactRows.push({ label: "Website", entries: [{ text: supplier.website, href: supplier.website }] });
+  if (!isPermanentlyClosed && supplier.whatsapp) contactRows.push({ label: "WhatsApp", entries: [{ text: supplier.whatsapp, href: `https://wa.me/${supplier.whatsapp.replace(/[^\d]/g, "")}` }] });
+  if (!isPermanentlyClosed && supplier.telegram) contactRows.push({ label: "Telegram", entries: [{ text: supplier.telegram }] });
+  if (!isPermanentlyClosed && supplier.email) contactRows.push({ label: "Email", entries: [{ text: supplier.email, href: `mailto:${supplier.email}` }] });
+  if (!isPermanentlyClosed && supplier.website) contactRows.push({ label: "Website", entries: [{ text: supplier.website, href: supplier.website }] });
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -44,6 +57,14 @@ export default async function SupplierPage({ params }: Props) {
       >
         ← Back to category
       </Link>
+
+      {isInactiveNotice && (
+        <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          {isTemporarilyInactive
+            ? `This supplier is currently marked as temporarily inactive. Business information was last checked on ${formatDate(supplier.lastCheckedAt)}.`
+            : `This business appears to have permanently closed. Information last checked on ${formatDate(supplier.lastCheckedAt)}.`}
+        </div>
+      )}
 
       <div
         className={`mt-4 rounded-2xl border bg-white p-6 ${
@@ -101,7 +122,7 @@ export default async function SupplierPage({ params }: Props) {
           ))}
         </dl>
 
-        {supplier.products.length > 0 && (
+        {!isPermanentlyClosed && supplier.products.length > 0 && (
           <div className="mt-6 border-t border-stone-100 pt-4">
             <h2 className="text-sm font-semibold text-stone-800 mb-3">Products &amp; pricing</h2>
             <p className="mb-3 text-xs text-stone-400">
@@ -127,6 +148,24 @@ export default async function SupplierPage({ params }: Props) {
           </div>
         )}
       </div>
+
+      {alternatives.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-sm font-semibold text-stone-800 mb-3">
+            Active suppliers in {supplier.categories[0].category.name}
+          </h2>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {alternatives.map((alt) => (
+              <li key={alt.id} className="rounded-xl border border-stone-200 bg-white p-4">
+                <Link href={`/supplier/${alt.slug}`} className="text-sm font-medium text-emerald-700 hover:underline">
+                  {alt.name}
+                </Link>
+                <p className="mt-1 text-xs text-stone-500">{alt.city}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

@@ -25,7 +25,32 @@ pre-filled with the 20 suppliers already live on the site.
 | Address | No | Free text street address. |
 | Verified | No | `TRUE`/`Yes`/`1` to show a blue "Verified" badge — meant for suppliers you've personally confirmed are real (called them, checked they operate in that category). Leave blank otherwise. Don't set this based on how confident a source *sounds* — that's what led to it being removed once already. |
 | Featured | No | `TRUE`/`Yes`/`1` to show an amber "Featured" badge, highlight the card, and sort this supplier first within its categories (and in the all-suppliers list). This is the paid-placement flag — keep it separate from Verified so paying never implies trust. |
-| Status | No | Leave blank or "Active" for a normal listing. Set to `Remove` (or `Inactive`/`Delete`) to delete that supplier from the database on next sync — only the Name column is required in that case. |
+| Status | No | Leave blank or `Active` for a normal listing. See "Supplier status" below — only the Name column is required when you're just changing status on an existing supplier. |
+| Closure reason | No | Free text, e.g. "Closed down, Dec 2025" or "Not responding to calls/messages". Shown nowhere publicly by default — kept for your own reference. |
+| Internal notes | No | Free text, private. Never rendered on any public page. |
+
+## Supplier status
+
+Suppliers are never deleted from the database by this endpoint — closing or
+archiving a supplier preserves its full history (so it can be restored, and
+so the same business doesn't get accidentally re-added later). `status`
+accepts any of these values, plus the older words in parentheses (kept
+working for backwards compatibility with habits from before this existed):
+
+| Status | Meaning | Public visibility |
+| --- | --- | --- |
+| `active` (default) | Normal listing. | Shown everywhere. |
+| `needs_review` (`review`) | Flagged as due for a manual check (e.g. not verified in 12+ months). Not auto-applied — set it by hand. | Shown everywhere, same as active. |
+| `temporarily_inactive` (`inactive`, `paused`) | Business is temporarily not operating/reachable. | Hidden from directory/category/search/counts. Profile page stays up with a notice banner. |
+| `permanently_closed` (`closed`) | Business has shut down for good. | Hidden from directory/category/search/counts. Profile page stays up with a notice banner, contact details and products hidden, and a list of active alternatives in the same category. |
+| `archived` (`archive`, `remove`, `removed`, `delete`, `deleted`) | Pulled from public discovery entirely, e.g. a duplicate or a listing you no longer want surfaced. | Profile page 404s (record is preserved in the database, URL is not redirected). |
+
+Changing a supplier's status sets `statusChangedAt` to the current time
+automatically (only when the status actually changes). `lastCheckedAt`
+updates on every sync touching that row, regardless of status.
+
+To restore an archived or closed supplier, sync it again with
+`"status": "active"` (or `"needs_review"`).
 
 Valid category names (must match one of these, case-insensitive):
 Fresh produce, Meat & poultry, Seafood, Bakery, Eggs & dairy, Dry goods,
@@ -77,7 +102,6 @@ Response:
 {
   "created": ["Example Co., Ltd."],
   "updated": [],
-  "removed": [],
   "warnings": []
 }
 ```
@@ -86,6 +110,27 @@ Each row is processed independently — one bad row (missing name, unknown
 category, etc.) is skipped with a warning rather than failing the whole batch.
 Matching an existing supplier is by slugified name, so upserts are safe to
 call repeatedly (idempotent) with the sheet's full current content each time.
+
+Only fields present in a row are changed — omit a field entirely to leave
+the existing value alone. This means a pure status change (archiving,
+marking inactive, restoring) only needs `name` and `status`; it won't wipe
+out the supplier's city, categories, contact details, etc. (`categories`
+is the one exception: if you include it but every value fails to match a
+known category, the existing categories are left untouched and a warning
+is returned, rather than clearing them to none).
+
+## Listing and filtering suppliers (admin)
+
+```
+GET https://<your-deployment>/api/admin/suppliers?status=needs_review&staleDays=365
+Authorization: Bearer <ADMIN_SYNC_TOKEN>
+```
+
+Both query params are optional. `status` filters to one status (any value
+from the table above); omit it to list every supplier regardless of status.
+`staleDays` (default 365) controls the `stale` flag returned on each active
+supplier whose `lastCheckedAt` is older than that many days — a candidate to
+manually set to `needs_review`, never changed automatically.
 
 ## Wiring n8n
 
@@ -111,13 +156,14 @@ curl -X POST https://<your-deployment>/api/admin/suppliers/sync \
 ```
 
 Check the response's `created` array, then look it up at `/supplier/test-supplier`
-on the site. Clean it up afterwards:
+on the site. Archive it afterwards (its database row is kept, not deleted —
+this endpoint never hard-deletes a supplier):
 
 ```bash
 curl -X POST https://<your-deployment>/api/admin/suppliers/sync \
   -H "Authorization: Bearer $ADMIN_SYNC_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"suppliers":[{"name":"Test Supplier","status":"Remove"}]}'
+  -d '{"suppliers":[{"name":"Test Supplier","status":"archived"}]}'
 ```
 
 # Product sync (per-supplier product lists)

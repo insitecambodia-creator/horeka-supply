@@ -1,9 +1,12 @@
 import { prisma } from "@/lib/prisma";
+import { PUBLIC_SUPPLIER_WHERE } from "@/lib/supplier-status";
 
 export async function getCategoriesGrouped() {
   const categories = await prisma.category.findMany({
     orderBy: { sortOrder: "asc" },
-    include: { _count: { select: { suppliers: true } } },
+    include: {
+      _count: { select: { suppliers: { where: { supplier: PUBLIC_SUPPLIER_WHERE } } } },
+    },
   });
 
   const groups = new Map<string, typeof categories>();
@@ -24,8 +27,27 @@ export async function getSuppliersForCategory(categoryId: string, city?: string)
     where: {
       categories: { some: { categoryId } },
       ...(city ? { city } : {}),
+      ...PUBLIC_SUPPLIER_WHERE,
     },
     orderBy: [{ featured: "desc" }, { name: "asc" }],
+  });
+}
+
+// Suggested alternatives shown on a permanently-closed supplier's page —
+// same category, publicly active, excluding the closed supplier itself.
+export async function getActiveSuppliersForCategoryExcluding(
+  categoryId: string,
+  excludeSupplierId: string,
+  limit = 4
+) {
+  return prisma.supplier.findMany({
+    where: {
+      categories: { some: { categoryId } },
+      id: { not: excludeSupplierId },
+      ...PUBLIC_SUPPLIER_WHERE,
+    },
+    orderBy: [{ featured: "desc" }, { name: "asc" }],
+    take: limit,
   });
 }
 
@@ -33,14 +55,14 @@ export async function getSuppliersForCategory(categoryId: string, city?: string)
 // supplier in the category regardless of what filter the visitor has applied.
 export async function categoryHasEmailSupplier(categoryId: string) {
   const count = await prisma.supplier.count({
-    where: { categories: { some: { categoryId } }, email: { not: null } },
+    where: { categories: { some: { categoryId } }, email: { not: null }, ...PUBLIC_SUPPLIER_WHERE },
   });
   return count > 0;
 }
 
 export async function getCitiesForCategory(categoryId: string) {
   const suppliers = await prisma.supplier.findMany({
-    where: { categories: { some: { categoryId } } },
+    where: { categories: { some: { categoryId } }, ...PUBLIC_SUPPLIER_WHERE },
     select: { city: true },
     distinct: ["city"],
     orderBy: { city: "asc" },
@@ -50,7 +72,7 @@ export async function getCitiesForCategory(categoryId: string) {
 
 export async function getAllSuppliers(city?: string) {
   return prisma.supplier.findMany({
-    where: city ? { city } : undefined,
+    where: { ...(city ? { city } : {}), ...PUBLIC_SUPPLIER_WHERE },
     include: { categories: { include: { category: true } } },
     orderBy: [{ featured: "desc" }, { name: "asc" }],
   });
@@ -58,6 +80,7 @@ export async function getAllSuppliers(city?: string) {
 
 export async function getAllCities() {
   const suppliers = await prisma.supplier.findMany({
+    where: PUBLIC_SUPPLIER_WHERE,
     select: { city: true },
     distinct: ["city"],
     orderBy: { city: "asc" },
@@ -65,6 +88,9 @@ export async function getAllCities() {
   return suppliers.map((s) => s.city);
 }
 
+// Deliberately NOT filtered by public status — the detail page itself
+// decides what to render per status (404 for archived, a notice banner for
+// temporarily_inactive/permanently_closed, normal for everything else).
 export async function getSupplierBySlug(slug: string) {
   return prisma.supplier.findUnique({
     where: { slug },
@@ -84,6 +110,7 @@ export async function searchSuppliersAndCategories(query: string) {
   const [allCategories, allSuppliers] = await Promise.all([
     prisma.category.findMany({ orderBy: { sortOrder: "asc" } }),
     prisma.supplier.findMany({
+      where: PUBLIC_SUPPLIER_WHERE,
       include: { categories: { include: { category: true } } },
       orderBy: [{ featured: "desc" }, { name: "asc" }],
     }),

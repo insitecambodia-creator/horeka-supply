@@ -41,10 +41,20 @@ model Supplier {
   featured    Boolean  @default(false)
   createdAt   DateTime @default(now())
   lastCheckedAt DateTime @updatedAt
+  // Lifecycle: "active" | "needs_review" | "temporarily_inactive" |
+  // "permanently_closed" | "archived" — see src/lib/supplier-status.ts for
+  // the single source of truth on valid values and public-visibility rules.
+  // Never delete a Supplier row for a status change; set this instead.
+  status          String    @default("active")
+  statusChangedAt DateTime?
+  closureReason   String?
+  // Private — never rendered on any public page.
+  internalNotes   String?
   categories  SupplierCategory[]
   products    SupplierProduct[]
 
   @@index([city])
+  @@index([status])
 }
 
 // A supplier's own product list, shown only on that supplier's page — not a
