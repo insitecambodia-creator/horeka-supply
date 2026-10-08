@@ -56,11 +56,37 @@ To restore an archived or closed supplier, sync it again with
 Valid category names (must match one of these, case-insensitive):
 Fresh produce, Meat & poultry, Seafood, Bakery, Eggs & dairy, Dry goods,
 Beverages, Beer & alcohol, Coffee & tea, Desserts, Condiments, Ice, Cleaning
-products, Packaging, Consumables, Gas supplier, Utilities, Internet, Equipment
+products, Packaging, Consumables, Gas supplier, Internet, Equipment
 maintenance, Air conditioning, Cleaning services, Pest control, Laundry,
 Security, Flowers & decoration, Live music agency, Payment services, POS
 software, Marketing, Insurance, Kitchen equipment, POS hardware, Furniture &
 fixtures, Signage & branding, Tableware.
+
+There's no "Utilities" category — electricity and water in Cambodia go
+through state-owned monopolies (EDC, PPWC), so there's no supplier choice to
+list.
+
+## Removing a category
+
+`prisma/data/categories.ts` is upsert-only on deploy (see
+`prisma/seed-categories.ts`) — removing a row from that file stops it being
+kept up to date, but doesn't delete the row already in the database. To
+actually delete one:
+
+```bash
+# Dry run first — reports affected suppliers, deletes nothing:
+curl -X DELETE "https://<your-deployment>/api/admin/categories?slug=utilities" \
+  -H "Authorization: Bearer $ADMIN_SYNC_TOKEN"
+
+# Then actually delete it:
+curl -X DELETE "https://<your-deployment>/api/admin/categories?slug=utilities&confirm=true" \
+  -H "Authorization: Bearer $ADMIN_SYNC_TOKEN"
+```
+
+Deleting a category untags any suppliers that had it (their own record is
+untouched) — the response lists which suppliers were affected, and flags
+any left with zero categories as `orphanedSuppliers` so you know to re-tag
+them.
 
 Note the distinction between similarly-named categories: "Equipment
 maintenance" is for repair/servicing of existing equipment, while "Kitchen

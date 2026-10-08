@@ -30,7 +30,6 @@ export const categories: CategorySeed[] = [
   { slug: "packaging", name: "Packaging", emoji: "📦", typicalItems: "Takeaway boxes, cups, bags", frequency: "Weekly", group: FACILITY },
   { slug: "consumables", name: "Consumables", emoji: "🧻", typicalItems: "Toilet paper, napkins, tissues", frequency: "Weekly", group: FACILITY },
   { slug: "gas-supplier", name: "Gas supplier", emoji: "🔥", typicalItems: "LPG cylinders", frequency: "Monthly / as needed", group: FACILITY },
-  { slug: "utilities", name: "Utilities", emoji: "⚡", typicalItems: "Electricity, water", frequency: "Monthly", group: OPERATIONS },
   { slug: "internet", name: "Internet", emoji: "🌐", typicalItems: "ISP", frequency: "Monthly", group: OPERATIONS },
   { slug: "equipment-maintenance", name: "Equipment maintenance", emoji: "🛠", typicalItems: "Refrigeration, kitchen equipment", frequency: "As needed", group: OPERATIONS },
   { slug: "air-conditioning", name: "Air conditioning", emoji: "❄", typicalItems: "Cleaning & repairs", frequency: "Quarterly", group: OPERATIONS },
