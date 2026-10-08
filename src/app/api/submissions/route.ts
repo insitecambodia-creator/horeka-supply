@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { normalizeTelegramHandle } from "@/lib/telegram";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,7 @@ export async function POST(request: NextRequest) {
   const phone = body.phone?.trim();
   const email = body.email?.trim();
   const whatsapp = body.whatsapp?.trim();
+  const telegram = normalizeTelegramHandle(body.telegram);
   const contactTelegram = body.contactTelegram?.trim();
 
   if (!name) {
@@ -68,8 +70,8 @@ export async function POST(request: NextRequest) {
   if (!description) {
     return NextResponse.json({ error: "A short description is required" }, { status: 400 });
   }
-  if (!phone && !email && !whatsapp) {
-    return NextResponse.json({ error: "Please provide at least one way to contact you (phone, email, or WhatsApp)" }, { status: 400 });
+  if (!phone && !email && !whatsapp && !telegram) {
+    return NextResponse.json({ error: "Please provide at least one way to contact you (phone, WhatsApp, Telegram, or email)" }, { status: 400 });
   }
   if (!body.consent) {
     return NextResponse.json({ error: "Please confirm you're authorized to submit this business" }, { status: 400 });
@@ -90,7 +92,7 @@ export async function POST(request: NextRequest) {
       address: body.address?.trim() || null,
       phone: phone || null,
       whatsapp: whatsapp || null,
-      telegram: body.telegram?.trim() || null,
+      telegram,
       email: email || null,
       website: body.website?.trim() || null,
       facebook: body.facebook?.trim() || null,
@@ -124,7 +126,7 @@ export async function POST(request: NextRequest) {
           .join(", ")}</p>`,
       phone && `<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>`,
       whatsapp && `<p><strong>WhatsApp:</strong> ${escapeHtml(whatsapp)}</p>`,
-      body.telegram && `<p><strong>Business Telegram:</strong> ${escapeHtml(body.telegram)}</p>`,
+      telegram && `<p><strong>Business Telegram:</strong> ${escapeHtml(telegram)}</p>`,
       email && `<p><strong>Email:</strong> ${escapeHtml(email)}</p>`,
       body.website && `<p><strong>Website:</strong> ${escapeHtml(body.website)}</p>`,
       body.facebook && `<p><strong>Facebook:</strong> ${escapeHtml(body.facebook)}</p>`,

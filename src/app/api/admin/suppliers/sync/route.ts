@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slugify";
 import { normalizeSupplierStatus } from "@/lib/supplier-status";
+import { normalizeTelegramHandle } from "@/lib/telegram";
 
 export const dynamic = "force-dynamic";
 
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
       address: row.address !== undefined ? row.address.trim() || null : undefined,
       phone: row.phone !== undefined ? row.phone.trim() || null : undefined,
       whatsapp: row.whatsapp !== undefined ? row.whatsapp.trim() || null : undefined,
-      telegram: row.telegram !== undefined ? row.telegram.trim() || null : undefined,
+      telegram: row.telegram !== undefined ? normalizeTelegramHandle(row.telegram) : undefined,
       email: row.email !== undefined ? row.email.trim() || null : undefined,
       website: row.website !== undefined ? row.website.trim() || null : undefined,
       verified: row.verified !== undefined ? parseBoolean(row.verified) : undefined,

@@ -20,6 +20,7 @@ pre-filled with the 20 suppliers already live on the site.
 | Categories | Yes (unless removing) | Comma-separated category names (e.g. `Coffee & tea, Consumables`) or slugs (e.g. `coffee-tea, consumables`). Unknown categories are ignored with a warning, not fatal. |
 | Phone | No | |
 | WhatsApp | No | |
+| Telegram | No | Any of `@username`, `username`, `https://t.me/username` or `t.me/username` — normalized to `@username` on save (case preserved). |
 | Email | No | |
 | Website | No | |
 | Address | No | Free text street address. |
@@ -82,6 +83,7 @@ Content-Type: application/json
       "city": "Phnom Penh",
       "categories": "Fresh produce, Dry goods",
       "phone": "+855 12 345 678",
+      "telegram": "@example_co",
       "email": "sales@example.com",
       "website": "https://example.com",
       "verified": false,

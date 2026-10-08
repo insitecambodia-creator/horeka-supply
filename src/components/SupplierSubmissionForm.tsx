@@ -242,8 +242,8 @@ export function SupplierSubmissionForm({ categoryGroups }: { categoryGroups: Cat
             <input value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>Telegram</label>
-            <input value={telegram} onChange={(e) => setTelegram(e.target.value)} className={inputClass} />
+            <label className={labelClass}>Business Telegram</label>
+            <input value={telegram} onChange={(e) => setTelegram(e.target.value)} className={inputClass} placeholder="@username" />
           </div>
           <div>
             <label className={labelClass}>Email</label>

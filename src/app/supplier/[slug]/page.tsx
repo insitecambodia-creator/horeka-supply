@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getSupplierBySlug, getActiveSuppliersForCategoryExcluding } from "@/lib/data";
 import { SupplierBadges } from "@/components/SupplierBadges";
 import { splitPhoneNumbers } from "@/lib/phone";
+import { telegramUrl } from "@/lib/telegram";
 import { formatDate } from "@/lib/date";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export default async function SupplierPage({ params }: Props) {
     });
   }
   if (!isPermanentlyClosed && supplier.whatsapp) contactRows.push({ label: "WhatsApp", entries: [{ text: supplier.whatsapp, href: `https://wa.me/${supplier.whatsapp.replace(/[^\d]/g, "")}` }] });
-  if (!isPermanentlyClosed && supplier.telegram) contactRows.push({ label: "Telegram", entries: [{ text: supplier.telegram }] });
+  if (!isPermanentlyClosed && supplier.telegram) contactRows.push({ label: "Telegram", entries: [{ text: supplier.telegram, href: telegramUrl(supplier.telegram) }] });
   if (!isPermanentlyClosed && supplier.email) contactRows.push({ label: "Email", entries: [{ text: supplier.email, href: `mailto:${supplier.email}` }] });
   if (!isPermanentlyClosed && supplier.website) contactRows.push({ label: "Website", entries: [{ text: supplier.website, href: supplier.website }] });
 
