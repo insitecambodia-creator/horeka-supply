@@ -56,10 +56,10 @@ Valid category names (must match one of these, case-insensitive):
 Fresh produce, Meat & poultry, Seafood, Bakery, Eggs & dairy, Dry goods,
 Beverages, Beer & alcohol, Coffee & tea, Desserts, Condiments, Ice, Cleaning
 products, Packaging, Consumables, Gas supplier, Utilities, Internet, Equipment
-maintenance, Air conditioning, Pest control, Laundry, Security, Flowers &
-decoration, Music licensing, Payment services, POS software, Marketing,
-Insurance, Kitchen equipment, POS hardware, Furniture & fixtures, Signage &
-branding, Tableware.
+maintenance, Air conditioning, Cleaning services, Pest control, Laundry,
+Security, Flowers & decoration, Live music agency, Payment services, POS
+software, Marketing, Insurance, Kitchen equipment, POS hardware, Furniture &
+fixtures, Signage & branding, Tableware.
 
 Note the distinction between similarly-named categories: "Equipment
 maintenance" is for repair/servicing of existing equipment, while "Kitchen

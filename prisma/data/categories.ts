@@ -34,6 +34,7 @@ export const categories: CategorySeed[] = [
   { slug: "internet", name: "Internet", emoji: "🌐", typicalItems: "ISP", frequency: "Monthly", group: OPERATIONS },
   { slug: "equipment-maintenance", name: "Equipment maintenance", emoji: "🛠", typicalItems: "Refrigeration, kitchen equipment", frequency: "As needed", group: OPERATIONS },
   { slug: "air-conditioning", name: "Air conditioning", emoji: "❄", typicalItems: "Cleaning & repairs", frequency: "Quarterly", group: OPERATIONS },
+  { slug: "cleaning-services", name: "Cleaning services", emoji: "🧼", typicalItems: "General, high-rise & carpet cleaning crews", frequency: "Weekly / as needed", group: OPERATIONS },
   { slug: "pest-control", name: "Pest control", emoji: "🐜", typicalItems: "Insects & rodents", frequency: "Monthly / Quarterly", group: OPERATIONS },
   { slug: "laundry", name: "Laundry", emoji: "👕", typicalItems: "Tablecloths, uniforms", frequency: "Weekly", group: OPERATIONS },
   { slug: "security", name: "Security", emoji: "🔒", typicalItems: "CCTV maintenance, guards", frequency: "Monthly", group: OPERATIONS },
