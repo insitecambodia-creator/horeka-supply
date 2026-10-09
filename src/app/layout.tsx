@@ -60,7 +60,13 @@ export default function RootLayout({
         <footer className="border-t border-stone-200 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-stone-500 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p>Restaurant Cambodia Supply &mdash; a supplier directory for hotels, restaurants &amp; cafés in Cambodia.</p>
-            <p>Listings are sourced from public research, not independently verified.</p>
+            <p>
+              Some listings are personally verified by us &mdash; see our{" "}
+              <Link href="/about" className="hover:text-emerald-700">
+                About page
+              </Link>{" "}
+              for details.
+            </p>
           </div>
         </footer>
       </body>
