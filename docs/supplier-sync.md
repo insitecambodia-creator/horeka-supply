@@ -14,7 +14,7 @@ pre-filled with the 20 suppliers already live on the site.
 
 | Column | Required | Notes |
 | --- | --- | --- |
-| Name | Yes | Used to derive the supplier's URL slug. Renaming a supplier creates a new entry rather than renaming the existing one — treat name as a stable identifier. |
+| Name | Yes | Used to derive the supplier's URL slug for a brand-new supplier. Renaming an existing one via the sheet creates a new entry rather than renaming the existing one — treat name as a stable identifier. (A legal-name/rebrand update that should keep the existing URL needs the sync API's `slug` field, not just a sheet edit — see below.) |
 | Description | No | Shown on the supplier's page and card if present; the section is just omitted otherwise. Fill in when you can, but it's not a blocker for getting a supplier listed. |
 | City | Yes (unless removing) | Free text, e.g. "Phnom Penh". |
 | Categories | Yes (unless removing) | Comma-separated category names (e.g. `Coffee & tea, Consumables`) or slugs (e.g. `coffee-tea, consumables`). Unknown categories are ignored with a warning, not fatal. |
@@ -29,6 +29,13 @@ pre-filled with the 20 suppliers already live on the site.
 | Status | No | Leave blank or `Active` for a normal listing. See "Supplier status" below — only the Name column is required when you're just changing status on an existing supplier. |
 | Closure reason | No | Free text, e.g. "Closed down, Dec 2025" or "Not responding to calls/messages". Shown nowhere publicly by default — kept for your own reference. |
 | Internal notes | No | Free text, private. Never rendered on any public page. |
+
+Not a sheet column, API-only: `slug`. Set it to an existing supplier's current
+slug when you need to change its `name` (a legal-name update, a rebrand,
+fixing a typo) without changing its live URL or creating a duplicate — the
+row is matched by this slug instead of the new name's slugified form, and
+the stored slug itself never changes on an update. Omit it for everything
+else; a brand-new supplier always gets its slug auto-derived from `name`.
 
 ## Supplier status
 

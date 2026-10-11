@@ -8,6 +8,11 @@ export const dynamic = "force-dynamic";
 
 type SupplierRow = {
   name?: string;
+  // Matches an existing supplier by its stable slug instead of the name's
+  // slugified form, so a legal-name/rebrand update doesn't change the live
+  // URL or create a duplicate. Ignored for a genuinely new supplier — those
+  // always get an auto slug derived from name. See the lookup below.
+  slug?: string;
   description?: string;
   city?: string;
   categories?: string | string[];
@@ -82,9 +87,10 @@ export async function POST(request: NextRequest) {
       warnings.push(`${rowLabel}: missing name, skipped`);
       continue;
     }
-    const slug = slugify(name);
+    const newSlug = slugify(name);
+    const lookupSlug = row.slug?.trim() || newSlug;
 
-    const existing = await prisma.supplier.findUnique({ where: { slug } });
+    const existing = await prisma.supplier.findUnique({ where: { slug: lookupSlug } });
 
     const requestedStatus = normalizeSupplierStatus(row.status);
     if (row.status && !requestedStatus) {
@@ -157,7 +163,7 @@ export async function POST(request: NextRequest) {
     // though it's only ever going to update an existing supplier.
     if (existing) {
       await prisma.supplier.update({
-        where: { slug },
+        where: { slug: lookupSlug },
         data: {
           ...data,
           ...(categorySlugs
@@ -172,7 +178,7 @@ export async function POST(request: NextRequest) {
           ...data,
           name,
           city: city!,
-          slug,
+          slug: newSlug,
           categories: { create: (categorySlugs ?? []).map((catSlug) => ({ category: { connect: { slug: catSlug } } })) },
         },
       });
