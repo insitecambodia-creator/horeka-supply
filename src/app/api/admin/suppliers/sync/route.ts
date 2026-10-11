@@ -150,26 +150,32 @@ export async function POST(request: NextRequest) {
       internalNotes: row.internalNotes !== undefined ? row.internalNotes.trim() || null : undefined,
     };
 
-    await prisma.supplier.upsert({
-      where: { slug },
-      update: {
-        ...data,
-        ...(categorySlugs
-          ? { categories: { deleteMany: {}, create: categorySlugs.map((catSlug) => ({ category: { connect: { slug: catSlug } } })) } }
-          : {}),
-      },
-      create: {
-        ...data,
-        name,
-        city: city!,
-        slug,
-        categories: { create: (categorySlugs ?? []).map((catSlug) => ({ category: { connect: { slug: catSlug } } })) },
-      },
-    });
-
+    // update() and create() on purpose, not upsert(): Prisma validates BOTH
+    // branches of an upsert() call upfront, even the one that won't run, and
+    // create's `city` is required/non-nullable — a status-only row with no
+    // `city` would fail that validation on its unused create branch even
+    // though it's only ever going to update an existing supplier.
     if (existing) {
+      await prisma.supplier.update({
+        where: { slug },
+        data: {
+          ...data,
+          ...(categorySlugs
+            ? { categories: { deleteMany: {}, create: categorySlugs.map((catSlug) => ({ category: { connect: { slug: catSlug } } })) } }
+            : {}),
+        },
+      });
       updated.push(name);
     } else {
+      await prisma.supplier.create({
+        data: {
+          ...data,
+          name,
+          city: city!,
+          slug,
+          categories: { create: (categorySlugs ?? []).map((catSlug) => ({ category: { connect: { slug: catSlug } } })) },
+        },
+      });
       created.push(name);
     }
   }
