@@ -29,7 +29,7 @@ export async function getSuppliersForCategory(categoryId: string, city?: string)
       ...(city ? { city } : {}),
       ...PUBLIC_SUPPLIER_WHERE,
     },
-    orderBy: [{ featured: "desc" }, { name: "asc" }],
+    orderBy: [{ featured: "desc" }, { verified: "desc" }, { name: "asc" }],
   });
 }
 
@@ -46,7 +46,7 @@ export async function getActiveSuppliersForCategoryExcluding(
       id: { not: excludeSupplierId },
       ...PUBLIC_SUPPLIER_WHERE,
     },
-    orderBy: [{ featured: "desc" }, { name: "asc" }],
+    orderBy: [{ featured: "desc" }, { verified: "desc" }, { name: "asc" }],
     take: limit,
   });
 }
@@ -74,7 +74,7 @@ export async function getAllSuppliers(city?: string) {
   return prisma.supplier.findMany({
     where: { ...(city ? { city } : {}), ...PUBLIC_SUPPLIER_WHERE },
     include: { categories: { include: { category: true } } },
-    orderBy: [{ featured: "desc" }, { name: "asc" }],
+    orderBy: [{ featured: "desc" }, { verified: "desc" }, { name: "asc" }],
   });
 }
 
@@ -112,7 +112,7 @@ export async function searchSuppliersAndCategories(query: string) {
     prisma.supplier.findMany({
       where: PUBLIC_SUPPLIER_WHERE,
       include: { categories: { include: { category: true } } },
-      orderBy: [{ featured: "desc" }, { name: "asc" }],
+      orderBy: [{ featured: "desc" }, { verified: "desc" }, { name: "asc" }],
     }),
   ]);
 
