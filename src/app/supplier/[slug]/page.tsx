@@ -123,6 +123,12 @@ export default async function SupplierPage({ params }: Props) {
           ))}
         </dl>
 
+        {!isPermanentlyClosed && supplier.verified && supplier.verifiedContactName && (
+          <div className="mt-4 rounded-xl bg-blue-50 px-4 py-3 text-sm text-blue-900">
+            We recommend asking for <strong>{supplier.verifiedContactName}</strong>.
+          </div>
+        )}
+
         {!isPermanentlyClosed && supplier.products.length > 0 && (
           <div className="mt-6 border-t border-stone-100 pt-4">
             <h2 className="text-sm font-semibold text-stone-800 mb-3">Products &amp; pricing</h2>

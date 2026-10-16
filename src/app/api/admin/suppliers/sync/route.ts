@@ -23,6 +23,7 @@ type SupplierRow = {
   website?: string;
   address?: string;
   verified?: string | boolean;
+  verifiedContactName?: string;
   featured?: string | boolean;
   status?: string;
   closureReason?: string;
@@ -149,6 +150,7 @@ export async function POST(request: NextRequest) {
       email: row.email !== undefined ? row.email.trim() || null : undefined,
       website: row.website !== undefined ? row.website.trim() || null : undefined,
       verified: row.verified !== undefined ? parseBoolean(row.verified) : undefined,
+      verifiedContactName: row.verifiedContactName !== undefined ? row.verifiedContactName.trim() || null : undefined,
       featured: row.featured !== undefined ? parseBoolean(row.featured) : undefined,
       status,
       statusChangedAt,

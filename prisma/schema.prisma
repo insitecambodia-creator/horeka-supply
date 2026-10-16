@@ -38,6 +38,11 @@ model Supplier {
   email       String?
   website     String?
   verified    Boolean  @default(false)
+  // Name of the specific person confirmed during the verification call
+  // (e.g. "Mrs Sambath") — shown as a "please contact X" note on the
+  // supplier page, but only when `verified` is also true. No photo field by
+  // design: a stock/placeholder photo would undercut the point of it.
+  verifiedContactName String?
   featured    Boolean  @default(false)
   createdAt   DateTime @default(now())
   lastCheckedAt DateTime @updatedAt
