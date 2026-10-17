@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
+import { PUBLIC_SUPPLIER_WHERE } from "@/lib/supplier-status";
 
 export const dynamic = "force-dynamic";
 
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
   }
 
   const suppliers = await prisma.supplier.findMany({
-    where: { categories: { some: { categoryId: category.id } }, email: { not: null } },
+    where: { categories: { some: { categoryId: category.id } }, email: { not: null }, ...PUBLIC_SUPPLIER_WHERE },
     select: { name: true, email: true },
   });
 
