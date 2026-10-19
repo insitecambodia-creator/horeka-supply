@@ -22,6 +22,15 @@ export async function getCategoryBySlug(slug: string) {
   return prisma.category.findUnique({ where: { slug } });
 }
 
+// Live counts for the homepage hero stat line.
+export async function getDirectoryStats() {
+  const [supplierCount, categoryCount] = await Promise.all([
+    prisma.supplier.count({ where: PUBLIC_SUPPLIER_WHERE }),
+    prisma.category.count(),
+  ]);
+  return { supplierCount, categoryCount };
+}
+
 export async function getSuppliersForCategory(categoryId: string, city?: string) {
   return prisma.supplier.findMany({
     where: {
