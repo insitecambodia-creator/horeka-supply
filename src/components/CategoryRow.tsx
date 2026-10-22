@@ -5,12 +5,11 @@ type CategoryRowProps = {
   slug: string;
   name: string;
   typicalItems: string;
-  frequency: string;
   supplierCount: number;
   rotate: "left" | "right" | "none";
 };
 
-export function CategoryRow({ slug, name, typicalItems, frequency, supplierCount, rotate }: CategoryRowProps) {
+export function CategoryRow({ slug, name, typicalItems, supplierCount, rotate }: CategoryRowProps) {
   const sealRotation = rotate === "left" ? "-rotate-3" : rotate === "right" ? "rotate-2" : "-rotate-1";
 
   return (
@@ -40,14 +39,9 @@ export function CategoryRow({ slug, name, typicalItems, frequency, supplierCount
         <span className="block text-[13px] text-ink-soft">{typicalItems}</span>
       </span>
 
-      <span className="flex shrink-0 items-center justify-between gap-4 pl-[60px] sm:justify-end sm:gap-6 sm:pl-0 sm:text-right">
-        <span className="rounded border border-jade px-2 py-0.5 font-mono text-[11px] text-jade whitespace-nowrap">
-          {frequency}
-        </span>
-        <span className="font-mono leading-tight">
-          <span className="block text-[17px] font-medium text-ink">{supplierCount}</span>
-          <span className="block text-[10px] text-ink-soft">{supplierCount === 1 ? "supplier" : "suppliers"}</span>
-        </span>
+      <span className="pl-[60px] font-mono leading-tight sm:shrink-0 sm:pl-0 sm:text-right">
+        <span className="block text-[17px] font-medium text-ink">{supplierCount}</span>
+        <span className="block text-[10px] text-ink-soft">{supplierCount === 1 ? "supplier" : "suppliers"}</span>
       </span>
     </Link>
   );

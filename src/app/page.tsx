@@ -69,7 +69,6 @@ export default async function HomePage() {
                 slug={category.slug}
                 name={category.name}
                 typicalItems={category.typicalItems}
-                frequency={category.frequency}
                 supplierCount={category._count.suppliers}
                 rotate={i % 3 === 0 ? "left" : i % 3 === 1 ? "right" : "none"}
               />
