@@ -6,6 +6,7 @@ import { SupplierBadges } from "@/components/SupplierBadges";
 import { splitPhoneNumbers } from "@/lib/phone";
 import { telegramUrl } from "@/lib/telegram";
 import { formatDate } from "@/lib/date";
+import { FEATURED_SUPPLIER_PAGES } from "@/components/featured/registry";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,29 @@ export default async function SupplierPage({ params }: Props) {
   // discovery entirely, including their own URL — 404 rather than redirect,
   // per spec ("do not blindly redirect archived URLs").
   if (!supplier || supplier.status === "archived") notFound();
+
+  // Featured suppliers with a hand-authored landing page get the rich
+  // layout instead of the standard one, at this same URL — both flag and
+  // registry entry have to be present, so a stale flag never 404s or falls
+  // through to an empty page.
+  if (supplier.hasFeaturedPage) {
+    const FeaturedPage = FEATURED_SUPPLIER_PAGES[supplier.slug];
+    if (FeaturedPage) {
+      return (
+        <div>
+          <div className="mx-auto max-w-3xl px-4 pt-5">
+            <Link
+              href={supplier.categories[0] ? `/category/${supplier.categories[0].category.slug}` : "/"}
+              className="font-mono text-xs text-ink-soft hover:text-stamp"
+            >
+              ← Back to category
+            </Link>
+          </div>
+          <FeaturedPage />
+        </div>
+      );
+    }
+  }
 
   const isTemporarilyInactive = supplier.status === "temporarily_inactive";
   const isPermanentlyClosed = supplier.status === "permanently_closed";

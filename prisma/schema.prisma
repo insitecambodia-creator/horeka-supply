@@ -44,6 +44,10 @@ model Supplier {
   // design: a stock/placeholder photo would undercut the point of it.
   verifiedContactName String?
   featured    Boolean  @default(false)
+  // True once a bespoke /supplier/featured/[slug] landing page exists for
+  // this supplier (hand-authored, not database-driven content) — set this
+  // only after that route is actually built, never in anticipation of it.
+  hasFeaturedPage Boolean @default(false)
   createdAt   DateTime @default(now())
   lastCheckedAt DateTime @updatedAt
   // Lifecycle: "active" | "needs_review" | "temporarily_inactive" |

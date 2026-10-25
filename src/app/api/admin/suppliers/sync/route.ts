@@ -25,6 +25,7 @@ type SupplierRow = {
   verified?: string | boolean;
   verifiedContactName?: string;
   featured?: string | boolean;
+  hasFeaturedPage?: string | boolean;
   status?: string;
   closureReason?: string;
   internalNotes?: string;
@@ -152,6 +153,7 @@ export async function POST(request: NextRequest) {
       verified: row.verified !== undefined ? parseBoolean(row.verified) : undefined,
       verifiedContactName: row.verifiedContactName !== undefined ? row.verifiedContactName.trim() || null : undefined,
       featured: row.featured !== undefined ? parseBoolean(row.featured) : undefined,
+      hasFeaturedPage: row.hasFeaturedPage !== undefined ? parseBoolean(row.hasFeaturedPage) : undefined,
       status,
       statusChangedAt,
       closureReason: row.closureReason !== undefined ? row.closureReason.trim() || null : undefined,
