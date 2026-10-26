@@ -107,16 +107,6 @@ const suppliers: SupplierSeed[] = [
     categories: ["beverages", "dry-goods", "consumables"],
   },
   {
-    slug: "fresh-food-supply-cambodia",
-    name: "Fresh Food Supply Cambodia",
-    description: "Fresh produce, meat, seafood and groceries delivered to hotels, restaurants, cafés and cruises.",
-    city: "Phnom Penh",
-    phone: "+855 93 887 171",
-    email: "sales@freshfoodcambodia.com",
-    website: "https://freshfoodcambodia.com",
-    categories: ["fresh-produce", "meat-poultry", "seafood"],
-  },
-  {
     slug: "jny-home-cambodia",
     name: "JNY Home Cambodia",
     description: "Mattresses, bed and bath linen, room amenities, chinaware, flatware and kitchen/bar utensils for hotels.",
