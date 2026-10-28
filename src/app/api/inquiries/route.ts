@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { PUBLIC_SUPPLIER_WHERE } from "@/lib/supplier-status";
+import { escapeHtml } from "@/lib/html";
 
 export const dynamic = "force-dynamic";
 
@@ -74,17 +75,17 @@ export async function POST(request: NextRequest) {
   const notes = body.notes?.trim();
 
   const detailRows = [
-    buyerName && `<p><strong>Name:</strong> ${buyerName}</p>`,
-    business && `<p><strong>Business:</strong> ${business}</p>`,
-    item && `<p><strong>Looking for:</strong> ${item}${quantity ? ` (${quantity})` : ""}</p>`,
-    notes && `<p><strong>Notes:</strong> ${notes}</p>`,
+    buyerName && `<p><strong>Name:</strong> ${escapeHtml(buyerName)}</p>`,
+    business && `<p><strong>Business:</strong> ${escapeHtml(business)}</p>`,
+    item && `<p><strong>Looking for:</strong> ${escapeHtml(item)}${quantity ? ` (${escapeHtml(quantity)})` : ""}</p>`,
+    notes && `<p><strong>Notes:</strong> ${escapeHtml(notes)}</p>`,
   ]
     .filter(Boolean)
     .join("");
 
   const htmlContent = `
-    <p>A hotel, restaurant or café in Cambodia is looking for <strong>${category.name}</strong> suppliers and would like you to get in touch.</p>
-    <p><strong>Buyer contact:</strong> ${email}</p>
+    <p>A hotel, restaurant or café in Cambodia is looking for <strong>${escapeHtml(category.name)}</strong> suppliers and would like you to get in touch.</p>
+    <p><strong>Buyer contact:</strong> ${escapeHtml(email)}</p>
     ${detailRows}
     <p style="color:#78716c;font-size:12px;">Sent via Restaurant Cambodia Supply, a directory connecting hospitality buyers with suppliers in Cambodia.</p>
   `;
@@ -98,6 +99,20 @@ export async function POST(request: NextRequest) {
       htmlContent,
     });
     if (sent) suppliersSent += 1;
+  }
+
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (adminEmail) {
+    const suppliersList = suppliers.map((s) => escapeHtml(s.name)).join(", ");
+    await sendEmail({
+      to: { email: adminEmail },
+      subject: `Inquiry copy — ${category.name} (${suppliersSent}/${suppliers.length} sent)`,
+      htmlContent: `
+        <p>Copy of a buyer inquiry sent through the ${escapeHtml(category.name)} category page.</p>
+        ${htmlContent}
+        <p style="color:#78716c;font-size:12px;">Sent to ${suppliersSent} of ${suppliers.length} suppliers with an email on file: ${suppliersList}.</p>
+      `,
+    });
   }
 
   await prisma.inquiry.create({

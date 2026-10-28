@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { normalizeTelegramHandle } from "@/lib/telegram";
+import { escapeHtml } from "@/lib/html";
 
 export const dynamic = "force-dynamic";
 
@@ -36,13 +37,6 @@ type SubmissionBody = {
   // Honeypot: a real visitor never fills this in.
   company?: string;
 };
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
 
 export async function POST(request: NextRequest) {
   let body: SubmissionBody;
