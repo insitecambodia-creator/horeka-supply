@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { PUBLIC_SUPPLIER_WHERE } from "@/lib/supplier-status";
 import { escapeHtml } from "@/lib/html";
+import { renderInquiryEmail, renderDetailRow } from "@/lib/email-templates";
 
 export const dynamic = "force-dynamic";
 
@@ -75,20 +76,20 @@ export async function POST(request: NextRequest) {
   const notes = body.notes?.trim();
 
   const detailRows = [
-    buyerName && `<p><strong>Name:</strong> ${escapeHtml(buyerName)}</p>`,
-    business && `<p><strong>Business:</strong> ${escapeHtml(business)}</p>`,
-    item && `<p><strong>Looking for:</strong> ${escapeHtml(item)}${quantity ? ` (${escapeHtml(quantity)})` : ""}</p>`,
-    notes && `<p><strong>Notes:</strong> ${escapeHtml(notes)}</p>`,
+    buyerName && renderDetailRow("Name", buyerName),
+    business && renderDetailRow("Business", business),
+    item && renderDetailRow("Looking for", quantity ? `${item} (${quantity})` : item),
+    notes && renderDetailRow("Notes", notes),
   ]
     .filter(Boolean)
     .join("");
 
-  const htmlContent = `
-    <p>A hotel, restaurant or café in Cambodia is looking for <strong>${escapeHtml(category.name)}</strong> suppliers and would like you to get in touch.</p>
-    <p><strong>Buyer contact:</strong> ${escapeHtml(email)}</p>
-    ${detailRows}
-    <p style="color:#78716c;font-size:12px;">Sent via Restaurant Cambodia Supply, a directory connecting hospitality buyers with suppliers in Cambodia.</p>
-  `;
+  const htmlContent = renderInquiryEmail({
+    eyebrow: "New buyer inquiry",
+    categoryName: category.name,
+    buyerEmail: email,
+    detailRows,
+  });
 
   let suppliersSent = 0;
   for (const supplier of suppliers) {
@@ -104,14 +105,17 @@ export async function POST(request: NextRequest) {
   const adminEmail = process.env.ADMIN_EMAIL;
   if (adminEmail) {
     const suppliersList = suppliers.map((s) => escapeHtml(s.name)).join(", ");
+    const adminHtmlContent = renderInquiryEmail({
+      eyebrow: "Inquiry copy",
+      categoryName: category.name,
+      buyerEmail: email,
+      detailRows,
+      footnote: `Sent to ${suppliersSent} of ${suppliers.length} suppliers with an email on file: ${suppliersList}.`,
+    });
     await sendEmail({
       to: { email: adminEmail },
       subject: `Inquiry copy — ${category.name} (${suppliersSent}/${suppliers.length} sent)`,
-      htmlContent: `
-        <p>Copy of a buyer inquiry sent through the ${escapeHtml(category.name)} category page.</p>
-        ${htmlContent}
-        <p style="color:#78716c;font-size:12px;">Sent to ${suppliersSent} of ${suppliers.length} suppliers with an email on file: ${suppliersList}.</p>
-      `,
+      htmlContent: adminHtmlContent,
     });
   }
 
