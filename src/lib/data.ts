@@ -106,6 +106,7 @@ export async function getSupplierBySlug(slug: string) {
     include: {
       categories: { include: { category: true } },
       products: { orderBy: { name: "asc" } },
+      testimonials: { orderBy: { createdAt: "desc" } },
     },
   });
 }

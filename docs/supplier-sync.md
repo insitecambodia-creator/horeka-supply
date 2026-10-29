@@ -250,3 +250,51 @@ Content-Type: application/json
 
 Same auth (`ADMIN_SYNC_TOKEN`) and per-row error handling as the supplier
 sync endpoint above.
+
+# Testimonial sync (restaurant referrals, per supplier)
+
+A short referral from a restaurant/hotel/café that already uses a given
+supplier — shown on that supplier's own page. Deliberately not a star-rated
+review (no rating field): this is closer to "ask for us by name" than a
+review platform. Added manually by the directory owner only, never by the
+public — there's no submission form for these.
+
+`restaurantName`/`restaurantUrl` are plain text/a plain link for now, not a
+foreign key into a real restaurants table. Building an actual restaurants
+database is a later phase; this is the simple version to start with.
+
+## The sync endpoint
+
+```
+POST https://<your-deployment>/api/admin/testimonials/sync
+Authorization: Bearer <ADMIN_SYNC_TOKEN>
+Content-Type: application/json
+
+{
+  "testimonials": [
+    {
+      "supplierName": "PHS Asia Co., Ltd.",
+      "quote": "We have been ordering our cleaning products from PHS since 2015, we are so happy with their service and their low prices.",
+      "reviewerName": "Andrew",
+      "restaurantName": "La Taverne Royale",
+      "restaurantUrl": "https://www.facebook.com/LaTaverneRoyale",
+      "status": "Active"
+    }
+  ]
+}
+```
+
+`supplierName` matches an existing supplier by slug or name, same lookup as
+product sync — an unknown supplier is skipped with a warning, never
+created. `quote` and `restaurantName` are required; `reviewerName` and
+`restaurantUrl` are optional. Matching on re-sync is by
+(`supplierName`, `restaurantName`) — the same restaurant can only have one
+testimonial per supplier, and re-syncing it updates the existing one rather
+than creating a duplicate.
+
+Set `status` to `Remove` (or `Inactive`/`Delete`) to delete a testimonial on
+next sync — only `supplierName` and `restaurantName` are required in that
+case.
+
+Same auth (`ADMIN_SYNC_TOKEN`) and per-row error handling as the supplier
+sync endpoint above.

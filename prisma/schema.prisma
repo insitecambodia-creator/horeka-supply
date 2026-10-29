@@ -61,9 +61,29 @@ model Supplier {
   internalNotes   String?
   categories  SupplierCategory[]
   products    SupplierProduct[]
+  testimonials Testimonial[]
 
   @@index([city])
   @@index([status])
+}
+
+// A referral from a restaurant/hotel/café that already uses this supplier —
+// not a star-rated review (deliberately no rating field), closer to a
+// personal recommendation. Added manually by the directory owner, never by
+// the public. restaurantName/restaurantUrl are plain text/link for now, not
+// a foreign key into a real restaurants table — upgrading to that is a
+// later phase.
+model Testimonial {
+  id             String   @id @default(cuid())
+  supplierId     String
+  quote          String
+  reviewerName   String?
+  restaurantName String
+  restaurantUrl  String?
+  createdAt      DateTime @default(now())
+  supplier       Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([supplierId, restaurantName])
 }
 
 // A supplier's own product list, shown only on that supplier's page — not a

@@ -180,6 +180,31 @@ export default async function SupplierPage({ params }: Props) {
         )}
       </div>
 
+      {!isPermanentlyClosed && supplier.testimonials.length > 0 && (
+        <div className="mt-6 space-y-4">
+          {supplier.testimonials.map((t) => (
+            <div key={t.id} className="rounded-2xl border border-stone-200 bg-white p-6">
+              <p className="text-stone-700">&ldquo;{t.quote}&rdquo;</p>
+              <p className="mt-3 text-sm text-stone-500">
+                {t.reviewerName && <>{t.reviewerName} &mdash; </>}
+                {t.restaurantUrl ? (
+                  <a
+                    href={t.restaurantUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium text-emerald-700 underline hover:no-underline"
+                  >
+                    {t.restaurantName}
+                  </a>
+                ) : (
+                  <span className="font-medium text-stone-700">{t.restaurantName}</span>
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
       {alternatives.length > 0 && (
         <div className="mt-6">
           <h2 className="text-sm font-semibold text-stone-800 mb-3">
