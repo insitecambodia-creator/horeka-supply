@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { PUBLIC_SUPPLIER_WHERE } from "@/lib/supplier-status";
+import { PUBLIC_SUPPLIER_WHERE, CATEGORY_LISTING_WHERE, isDormantStatus } from "@/lib/supplier-status";
 
 export async function getCategoriesGrouped() {
   const categories = await prisma.category.findMany({
@@ -31,15 +31,29 @@ export async function getDirectoryStats() {
   return { supplierCount, categoryCount };
 }
 
+// Includes temporarily_inactive/permanently_closed suppliers (grayed out on
+// the card, contact details withheld) — see CATEGORY_LISTING_WHERE. Sorted
+// featured/verified/name first as usual, then stably re-sorted so those
+// dormant listings sink to the bottom regardless.
 export async function getSuppliersForCategory(categoryId: string, city?: string) {
-  return prisma.supplier.findMany({
+  const suppliers = await prisma.supplier.findMany({
     where: {
       categories: { some: { categoryId } },
       ...(city ? { city } : {}),
-      ...PUBLIC_SUPPLIER_WHERE,
+      ...CATEGORY_LISTING_WHERE,
     },
     orderBy: [{ featured: "desc" }, { verified: "desc" }, { name: "asc" }],
   });
+
+  return suppliers
+    .map((supplier, index) => ({ supplier, index }))
+    .sort((a, b) => {
+      const aDormant = isDormantStatus(a.supplier.status);
+      const bDormant = isDormantStatus(b.supplier.status);
+      if (aDormant !== bDormant) return aDormant ? 1 : -1;
+      return a.index - b.index;
+    })
+    .map(({ supplier }) => supplier);
 }
 
 // Suggested alternatives shown on a permanently-closed supplier's page —

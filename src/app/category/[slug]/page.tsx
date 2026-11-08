@@ -88,6 +88,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
             phone={supplier.phone}
             verified={supplier.verified}
             featured={supplier.featured}
+            status={supplier.status}
             lastCheckedAt={supplier.lastCheckedAt}
           />
         ))}

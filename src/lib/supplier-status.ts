@@ -41,6 +41,22 @@ export const PUBLIC_SUPPLIER_WHERE = {
   status: { notIn: Array.from(HIDDEN_FROM_PUBLIC) },
 };
 
+// temporarily_inactive/permanently_closed are real businesses still worth
+// showing (grayed out, no contact details) so a visitor doesn't wonder
+// whether they misremembered a listing — unlike archived, which is for
+// duplicates/out-of-scope entries meant to disappear quietly. Spread this
+// into a query instead of PUBLIC_SUPPLIER_WHERE where that distinction
+// matters (currently just the category-page listing).
+const DORMANT_STATUSES: ReadonlySet<SupplierStatus> = new Set(["temporarily_inactive", "permanently_closed"]);
+
+export const CATEGORY_LISTING_WHERE = {
+  status: { not: "archived" as SupplierStatus },
+};
+
+export function isDormantStatus(status: string): boolean {
+  return DORMANT_STATUSES.has(status as SupplierStatus);
+}
+
 // Accepts the new vocabulary plus the older sheet/sync values people are
 // already used to typing ("Inactive", "Remove", etc.), so existing habits
 // keep working without silently deleting anything.
