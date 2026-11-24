@@ -15,7 +15,7 @@ export function CategoryRow({ slug, name, typicalItems, supplierCount, rotate }:
   return (
     <Link
       href={`/category/${slug}`}
-      className="group flex flex-col gap-2.5 py-4 border-b border-line last:border-b-[1.5px] last:border-ink hover:bg-paper-raised focus-visible:bg-paper-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stamp transition-colors sm:flex-row sm:items-center sm:gap-4"
+      className="group flex flex-col gap-2.5 py-4 border-b border-line break-inside-avoid hover:bg-paper-raised focus-visible:bg-paper-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stamp transition-colors sm:flex-row sm:items-center sm:gap-4"
     >
       <span className="flex items-center gap-4">
         <span

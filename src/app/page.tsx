@@ -62,7 +62,7 @@ export default async function HomePage() {
               {categories.length} {categories.length === 1 ? "category" : "categories"}
             </span>
           </div>
-          <div>
+          <div className="border-b-[1.5px] border-ink md:columns-2 md:gap-x-10">
             {categories.map((category, i) => (
               <CategoryRow
                 key={category.slug}
