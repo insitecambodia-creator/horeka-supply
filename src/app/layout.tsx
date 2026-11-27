@@ -65,6 +65,9 @@ export default function RootLayout({
               <Link href="/suppliers" className="hidden hover:text-stamp sm:inline">
                 Suppliers
               </Link>
+              <Link href="/prices" className="hidden hover:text-stamp sm:inline">
+                Prices
+              </Link>
               <Link href="/about" className="hover:text-stamp">
                 About
               </Link>
